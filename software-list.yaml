@@ -125,12 +125,12 @@ categories:
     #   note: 官网已失效；SSD 基准测试已被清单内 CrystalDiskMark 覆盖，故停用
 
   内存工具:
-    - name: MemTest86
-      homepage: https://www.memtest86.com/download.htm
-      ua: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126.0 Safari/537.36
-      url: https://www.memtest86.com/downloads/memtest86-usb.zip
-      version_pattern: MemTest86\s*V?([\d.]+)
-      note: 免费版 USB 镜像（下载文件名固定，版本仅作更新提醒）；该站封 curl UA 需浏览器 UA
+    # - name: MemTest86
+    #   homepage: https://www.memtest86.com/download.htm
+    #   ua: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126.0 Safari/537.36
+    #   url: https://www.memtest86.com/downloads/memtest86-usb.zip
+    #   version_pattern: MemTest86\s*V?([\d.]+)
+    #   note: 与清单内 MemTest86+ 同功能（启动盘内存测试），且免费版 USB 镜像高达 1GB，故停用省体积；MemTest86+ 开源活跃仅 6MB
     - name: MemTest86+
       homepage: https://www.memtest.org/
       url: https://www.memtest.org/download/v{ver}/mt86plus_{ver}_x86_64.iso.zip
