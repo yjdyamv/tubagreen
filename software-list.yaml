@@ -181,6 +181,15 @@ categories:
       homepage: https://rufus.ie/
       github: pbatard/rufus
       asset_pattern: ^rufus-.*\.exe$
+    - name: 7-Zip ZS
+      homepage: https://github.com/mcmilk/7-Zip-zstd
+      github: mcmilk/7-Zip-zstd
+      asset_pattern: zstd-x64\.exe$
+      note: zstd 增强版 7-Zip（作者 mcmilk），安装器经 7-Zip 提取后即绿色便携版
+    - name: WinRAR
+      homepage: https://www.rarlab.com/download.htm
+      url: https://www.rarlab.com/rar/winrar-x64-723.exe
+      note: 官方安装器为 PE 内嵌 Rar5，自动解出绿色便携版；版本更新时到 rarlab.com/download.htm 核对版本号
     - name: Dism++
       homepage: https://github.com/Chuyu-Team/Dism-Multi-language
       github: Chuyu-Team/Dism-Multi-language

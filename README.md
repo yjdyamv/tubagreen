@@ -38,13 +38,13 @@ uv run tubagreen --keep-archives  # 保留原始压缩包
 | `installer: true` | 安装版，无法提取（保留安装程序） |
 | `no_extract: true` | 单文件绿色工具，跳过提取 |
 
-## 当前状态（50 个条目，其中 9 个已注释停用）
+## 当前状态（52 个条目，其中 10 个已注释停用）
 
-- ✅ **39 个自动下载**：CPU-Z、Prime95、ThrottleStop、GPU-Z、FurMark、nvidiaInspector、
+- ✅ **41 个自动下载**：CPU-Z、Prime95、ThrottleStop、GPU-Z、FurMark、nvidiaInspector、
   CrystalDiskInfo、CrystalDiskMark、DiskGenius、WizTree、WinDirStat、SpaceSniffer、Ventoy、MediaTester、
   MemTest86、HCI MemTest、MemTest64、ZenTimings、AIDA64、HWiNFO、HWMonitor、Speccy、
-  RWEverything、MouseTester、Everything、Rufus、Dism++、Geek、BlueScreenView、BatteryInfoView、
-  Process Explorer、DesktopOK、gifcam 等
+  RWEverything、MouseTester、Everything、Rufus、7-Zip ZS、WinRAR、Dism++、Geek、BlueScreenView、
+  BatteryInfoView、Process Explorer、DesktopOK、gifcam 等
 - 📦 **免安装单文件**：GPU-Z、MemTest64、Rufus、UltraISO、MediaTester 等
 - 🔧 **安装版**（分层加密结构，自动解压内嵌分块）：OCCT
 - ⏸️ **10 个已注释停用**（无官方/镜像可脚本化来源，功能已被清单内工具覆盖，见

@@ -283,7 +283,7 @@ def probe_type(archive: Path) -> str:
     has_embed = bool(re.search(r"^Path = \[0\]", r.stdout, re.M))
     if "Nsis" in types or "Inno" in types:
         return "nsis"
-    if any(t in types for t in ("zip", "7z", "rar", "tar", "gzip", "bzip2", "xz", "zstd")):
+    if any(t in types for t in ("zip", "7z", "rar", "Rar5", "tar", "gzip", "bzip2", "xz", "zstd")):
         return "archive"
     if "PE" in types:
         return "pe-sfx" if has_embed else "pe"
