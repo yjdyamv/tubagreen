@@ -60,12 +60,16 @@ jobs:
             }
           }
 
-      - name: 打包 7z（排除 _tools 引擎与报告）
+      - name: 打包 7z（排除 _tools、报告与 pack:false 工具）
         shell: pwsh
         run: |
-          & 'C:\Program Files\7-Zip\7z.exe' a -t7z -mx=5 `
-            "toolbox-${{ steps.ver.outputs.tag }}.7z" `
-            "tools\*" -xr!tools\_tools\* -xr!tools\下载报告.txt
+          $tag = "${{ steps.ver.outputs.tag }}"
+          $excl = uv run tubagreen --pack-exclude
+          $exArgs = @()
+          foreach ($e in $excl) { $exArgs += "-xr!tools\$e" }
+          Write-Host "排除目录: $($excl -join ', ')"
+          & 'C:\Program Files\7-Zip\7z.exe' a -t7z -mx=5 "toolbox-$tag.7z" `
+            "tools\*" -xr!tools\_tools\* -xr!tools\下载报告.txt @exArgs
 
       - name: 创建 Release 并上传资产
         env:

@@ -177,6 +177,7 @@ class Tool:
     tpu_pattern: str = ""              # TPU 版本标题匹配（如 "TechPowerUp GPU-Z" 排除定制皮肤版）
     mediafire: str = ""                # MediaFire 页面链接（官方网盘托管，一般需手动）
     ua: str = ""                       # 自定义 UA（默认 curl/8.0；个别站点封 curl UA 需改浏览器 UA）
+    pack: bool = True                  # False = 不入发布包（体积大/版权/重复，CI 打包时排除）
     # 提取行为
     no_extract: bool = False           # 单文件工具，跳过提取（如 GPU-Z、Rufus）
     installer: bool = False            # 安装版，保留原安装程序（如 OCCT）
@@ -744,6 +745,12 @@ def run(args: argparse.Namespace) -> int:
     """主流程：准备依赖 → 过滤工具 → 并发下载 → 提取绿色化 → 报告。"""
     if args.check_updates:
         return check_updates()
+    if args.pack_exclude:
+        # 输出不进发布包的工具目录（供 CI 打包排除），每行: <分类>/<工具名>
+        for t in load_manifest():
+            if not t.pack:
+                print(f"{t.category}/{t.name}")
+        return 0
     ensure_dependencies(OUT_DIR)  # 首次运行自动准备 7-Zip ZS 便携版等依赖
     tools = load_manifest()
     if args.list:
@@ -848,6 +855,7 @@ def main() -> None:
     p = argparse.ArgumentParser(description="硬件工具箱软件官网自动下载器")
     p.add_argument("--list", action="store_true", help="列出软件清单")
     p.add_argument("--check-updates", action="store_true", help="检查各工具最新版本（不下载）")
+    p.add_argument("--pack-exclude", action="store_true", help="输出不入发布包的工具目录（CI 打包用）")
     p.add_argument("-c", "--category", help="只下载指定分类")
     p.add_argument("-o", "--only", help="只下载指定工具（逗号分隔）")
     p.add_argument("--parallel", type=int, default=2, help="并发下载数（默认 2，防服务器限流）")
