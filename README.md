@@ -38,17 +38,18 @@ uv run tubagreen --keep-archives  # 保留原始压缩包
 | `installer: true` | 安装版，无法提取（保留安装程序） |
 | `no_extract: true` | 单文件绿色工具，跳过提取 |
 
-## 当前状态（50 个工具）
+## 当前状态（50 个条目，其中 9 个已注释停用）
 
-- ✅ **37 个绿色便携版**：CPU-Z、Prime95、ThrottleStop、GPU-Z、FurMark、nvidiaInspector、
-  CrystalDiskInfo、CrystalDiskMark、DiskGenius、WizTree、WinDirStat、SpaceSniffer、Ventoy、
+- ✅ **39 个自动下载**：CPU-Z、Prime95、ThrottleStop、GPU-Z、FurMark、nvidiaInspector、
+  CrystalDiskInfo、CrystalDiskMark、DiskGenius、WizTree、WinDirStat、SpaceSniffer、Ventoy、MediaTester、
   MemTest86、HCI MemTest、MemTest64、ZenTimings、AIDA64、HWiNFO、HWMonitor、Speccy、
-  RWEverything、MouseTester、Everything、Rufus、Geek、BlueScreenView、BatteryInfoView、
+  RWEverything、MouseTester、Everything、Rufus、Dism++、Geek、BlueScreenView、BatteryInfoView、
   Process Explorer、DesktopOK、gifcam 等
-- 📦 **5 个免安装单文件**：GPU-Z、MemTest64、Rufus、UltraISO 等
-- 🔧 **1 个安装版**（分层加密结构，自动解压内嵌分块）：OCCT
-- 📋 **13 个需手动**（无官方稳定源/网盘托管/反爬）：DDU、Dism++、Thaiphoon、TM5、
-  LinX、wPrime、SuperPi、SSD-Z、TxBENCH、AS SSD、urwtest、Keyboard Test、dxvachecker
+- 📦 **免安装单文件**：GPU-Z、MemTest64、Rufus、UltraISO、MediaTester 等
+- 🔧 **安装版**（分层加密结构，自动解压内嵌分块）：OCCT
+- ⏸️ **10 个已注释停用**（无官方/镜像可脚本化来源，功能已被清单内工具覆盖，见
+  software-list.yaml 中对应 note）：DDU、LinX、wPrime、SuperPi、dxvachecker、SSD-Z、TxBENCH、
+  AS SSD、Thaiphoon Burner、TM5
 
 ## 输出结构
 

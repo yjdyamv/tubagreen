@@ -7,6 +7,10 @@
 #   mediafire MediaFire 页面解析直链
 #   url      官网稳定直链（版本更新时手动改）
 #   （无以上字段 = 需手动，见 note 说明原因）
+#
+#  注释约定：
+#   # - name: XXX  表示该工具暂无官方/镜像可脚本化来源，已注释停用，
+#   note 中会注明原因及替代品（替代品通常已在清单内或已另行收录）。
 # ============================================================
 
 categories:
@@ -25,15 +29,15 @@ categories:
     - name: ThrottleStop
       homepage: https://www.techpowerup.com/download/techpowerup-throttlestop/
       tpu: techpowerup-throttlestop
-    - name: LinX
-      homepage: ""
-      note: 论坛软件无官方源，请从图吧工具箱内提取
-    - name: wPrime
-      homepage: ""
-      note: 老软件官网已失效，请从图吧工具箱内提取
-    - name: SuperPi
-      homepage: ""
-      note: 老软件无官网，请从图吧工具箱内提取
+    # - name: LinX
+    #   homepage: ""
+    #   note: 论坛软件无官方源；功能已被 OCCT（含 Linpack 压力测试）覆盖，故停用。如需可手动从网盘获取
+    # - name: wPrime
+    #   homepage: ""
+    #   note: 老软件官网 wprime.net 已失效，无可靠镜像源；多线程基准功能与 Prime95/OCCT 重叠，故停用。如需可手动从网盘获取
+    # - name: SuperPi
+    #   homepage: ""
+    #   note: 老软件无官网；单线程圆周率基准仅具娱乐性，无官方源故停用。如需可手动从网盘获取
 
   显卡工具:
     - name: GPU-Z
@@ -46,12 +50,13 @@ categories:
       homepage: https://geeks3d.com/furmark/
       url: https://www.geeks3d.com/dl/get/771
       note: FurMark 2.5.0 zip 版（绿色免安装）
-    - name: DDU (Display Driver Uninstaller)
-      homepage: https://www.wagnardsoft.com/display-driver-uninstaller-ddu
-      note: 官网有反爬保护(Cloudflare)，需浏览器手动下载
-    - name: dxvachecker
-      homepage: ""
-      note: 原作者页面已下线，请从图吧工具箱内提取
+    # - name: DDU (Display Driver Uninstaller)
+    #   homepage: https://www.wagnardsoft.com/display-driver-uninstaller-ddu
+    #   note: 官方站 wagnardsoft.com 下载按钮为 JS 注入+Cloudflare，无法脚本化；官方 GitHub 仓库 Wagnard/display-drivers-uninstaller 仅源码无 Release；
+    #        故停用。如需可浏览器手动下载，或使用社区镜像 g7755726/Display-Driver-Uninstaller-DDU（非官方源，慎用）
+    # - name: dxvachecker
+    #   homepage: ""
+    #   note: 原作者页面已下线；功能可部分由 GPU-Z/系统自带 dxdiag 代替，无官方源故停用
     - name: nvidiaInspector
       homepage: https://www.guru3d.com/download/nvidia-inspector/
       tpu: nvidia-inspector
@@ -87,18 +92,24 @@ categories:
       homepage: https://www.ventoy.net/
       github: ventoy/Ventoy
       asset_pattern: ventoy-.*-windows\.zip$
-    - name: urwtest
-      homepage: ""
-      note: 作者未发布官方 Release，请从图吧工具箱内提取
-    - name: SSD-Z
-      homepage: ""
-      note: 官网已失效，请从图吧工具箱内提取
-    - name: TxBENCH
-      homepage: ""
-      note: 官网已失效，请从图吧工具箱内提取
-    - name: AS SSD Benchmark
-      homepage: ""
-      note: 官网已失效，请从图吧工具箱内提取
+    # - name: urwtest
+    #   homepage: ""
+    #   note: 作者未发布官方 Release；已被清单内 MediaTester 替代（同类 U 盘/SD 卡坏块与扩容检测）
+    - name: MediaTester
+      homepage: https://github.com/dkrahmer/MediaTester
+      github: dkrahmer/MediaTester
+      asset_pattern: MediaTester\.exe$
+      no_extract: true
+      note: urwtest/h2testw 同类工具（U 盘/SD 卡坏块与扩容检测），单文件绿色版
+    # - name: SSD-Z
+    #   homepage: ""
+    #   note: 官网已失效；SSD 信息查看功能已被清单内 CrystalDiskInfo 覆盖，故停用
+    # - name: TxBENCH
+    #   homepage: ""
+    #   note: 官网已失效；SSD 基准测试已被清单内 CrystalDiskMark 覆盖，故停用
+    # - name: AS SSD Benchmark
+    #   homepage: ""
+    #   note: 官网已失效；SSD 基准测试已被清单内 CrystalDiskMark 覆盖，故停用
 
   内存工具:
     - name: MemTest86
@@ -115,12 +126,12 @@ categories:
       homepage: https://github.com/irusanov/ZenTimings
       github: irusanov/ZenTimings
       asset_pattern: ZenTimings_.*\.zip$
-    - name: Thaiphoon Burner
-      homepage: https://www.thaiphoonburner.com/
-      note: 官方仅用 MediaFire 托管且文件被标记需验证，请手动下载
-    - name: TM5
-      homepage: ""
-      note: 论坛软件无官方源，请从图吧工具箱内提取
+    # - name: Thaiphoon Burner
+    #   homepage: https://www.thaiphoonburner.com/
+    #   note: 官方仅用 MediaFire 托管且文件被标记需验证；SPD 信息查看已被 HWiNFO/CPU-Z 覆盖，写 SPD 属高危操作，故停用
+    # - name: TM5
+    #   homepage: ""
+    #   note: 论坛软件无官方源；内存稳定性测试已被清单内 MemTest86/HCI MemTest 覆盖，故停用
 
   烤鸡工具:
     - name: OCCT
@@ -171,8 +182,10 @@ categories:
       github: pbatard/rufus
       asset_pattern: ^rufus-.*\.exe$
     - name: Dism++
-      homepage: https://github.com/Chuyu-Team/Dism-plus-plus
-      note: 作者仅在官网/网盘发布，请手动下载
+      homepage: https://github.com/Chuyu-Team/Dism-Multi-language
+      github: Chuyu-Team/Dism-Multi-language
+      asset_pattern: Dism\+\+.*\.zip$
+      note: 官方仓库已由 Dism-plus-plus 更名，从 Dism-Multi-language 的 Release 自动获取
     - name: Geek Uninstaller
       homepage: https://geekuninstaller.com/
       url: https://geekuninstaller.com/geek.zip
