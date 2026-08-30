@@ -179,9 +179,11 @@ categories:
   综合检测:
     - name: AIDA64 Business
       homepage: https://www.aida64.com/downloads
-      url: https://download.aida64.com/aida64business720.zip
+      url: https://download.aida64.com/aida64business{ver_flat}.zip
+      version_pattern: AIDA64 Business </a>[\s\S]*?class="version">([\d.]+)
       post_fix_encoding: Language/lang_cn.txt
-      note: 商业试用版（30 天，会过期）；信息+基准+烤机全能，功能强大
+      note: 商业试用版（30 天，会过期）；信息+基准+烤机全能，功能强大；直链版本号去点（8.35→835），自动跟随最新稳定版
+    - name: LibreHardwareMonitor
       homepage: https://github.com/LibreHardwareMonitor/LibreHardwareMonitor
       github: LibreHardwareMonitor/LibreHardwareMonitor
       asset_pattern: ^LibreHardwareMonitor\.zip$

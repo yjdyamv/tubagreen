@@ -555,9 +555,11 @@ def download_one(client: httpx.Client, tool: Tool, out_dir: Path, force: bool,
                     v = resolve_version(client, tool.version_url or tool.homepage, tool.version_pattern, tool.ua or UA)
                     tool.resolved_version = v
                     if "{" in tool.resolved_url:
-                        tool.resolved_url = tool.resolved_url.format(ver=v, ver_nodot=v.replace(".", "_"))
-                        if "{ver}" in tool.filename:
-                            tool.filename = tool.filename.format(ver=v, ver_nodot=v.replace(".", "_"))
+                        # 占位符：{ver}=完整版号；{ver_nodot}=点转下划线；{ver_flat}=主版本前两段去点（如 8.35.8400 -> 835）
+                        ver_flat = "".join(v.split(".")[:2])
+                        tool.resolved_url = tool.resolved_url.format(ver=v, ver_nodot=v.replace(".", "_"), ver_flat=ver_flat)
+                        if "{" in tool.filename:
+                            tool.filename = tool.filename.format(ver=v, ver_nodot=v.replace(".", "_"), ver_flat=ver_flat)
                         else:
                             tool.filename = tool.resolved_url.split("/")[-1].split("?")[0]
                         log(f"[版本] {tool.category}/{tool.name}  最新 {v} -> {tool.filename}")
