@@ -37,7 +37,7 @@ uv run pack --dry-run      # 只预览命令，不实际打包
 uv run pack -c 硬盘工具     # 只打包某分类
 ```
 
-双击根目录 `打包.bat` 即可一键打包（命令行参数同 `uv run pack`）。
+双击根目录 `打包.py` 即可一键打包（命令行参数同 `uv run pack`，结束时按回车关闭窗口）。
 打包规则与 CI 完全一致：排除 `_tools/`、`下载报告.txt` 与清单中 `pack: false` 的工具。
 
 ## 软件清单

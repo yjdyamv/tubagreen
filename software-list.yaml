@@ -20,11 +20,11 @@ categories:
       url: https://download.cpuid.com/cpu-z/cpu-z_{ver}-cn.zip
       version_pattern: cpu-z[-_ ]?([\d.]+)
       note: 官方中文版，版本自动解析
-    - name: Core Temp
-      homepage: https://www.alcpu.com/CoreTemp/
-      url: https://www.alcpu.com/CoreTemp/Core-Temp-setup-v{ver}.exe
-      version_pattern: Core-Temp-setup-v?([\d.]+)\.exe
-      note: Inno 安装器（用 innoextract 自动提取），版本自动解析
+    # - name: Core Temp
+    # homepage: https://www.alcpu.com/CoreTemp/
+    # url: https://www.alcpu.com/CoreTemp/Core-Temp-setup-v{ver}.exe
+    # version_pattern: Core-Temp-setup-v?([\d.]+)\.exe
+    # note: Inno 安装器（用 innoextract 自动提取），版本自动解析
     - name: Prime95
       homepage: https://www.mersenne.org/download/
       url: https://www.mersenne.org/download/software/v30/30.19/p95v{ver}.win64.zip
@@ -69,9 +69,9 @@ categories:
     - name: nvidiaInspector
       homepage: https://www.guru3d.com/download/nvidia-inspector/
       tpu: nvidia-inspector
-    - name: nvidiaProfileInspector
-      homepage: https://www.guru3d.com/download/nvidia-profile-inspector/
-      tpu: nvidia-profile-inspector
+    # - name: nvidiaProfileInspector
+    # homepage: https://www.guru3d.com/download/nvidia-profile-inspector/
+    # tpu: nvidia-profile-inspector
 
   硬盘工具:
     - name: CrystalDiskInfo
@@ -151,10 +151,10 @@ categories:
     #   tpu: techpowerup-memtest64
     #   no_extract: true
     #   note: Windows 内内存测试已被清单内 HCI MemTest 覆盖，故停用
-    - name: ZenTimings
-      homepage: https://github.com/irusanov/ZenTimings
-      github: irusanov/ZenTimings
-      asset_pattern: ZenTimings_.*\.zip$
+    # - name: ZenTimings
+    # homepage: https://github.com/irusanov/ZenTimings
+    # github: irusanov/ZenTimings
+    # asset_pattern: ZenTimings_.*\.zip$
     # - name: Thaiphoon Burner
     #   homepage: https://www.thaiphoonburner.com/
     #   note: 官方仅用 MediaFire 托管且文件被标记需验证；SPD 信息查看已被 HWiNFO/CPU-Z 覆盖，写 SPD 属高危操作，故停用
@@ -162,18 +162,19 @@ categories:
     #   homepage: ""
     #   note: 论坛软件无官方源；内存稳定性测试已被清单内 MemTest86/HCI MemTest 覆盖，故停用
 
-  烤鸡工具:
-    # - name: OCCT
-    #   homepage: https://www.ocbase.com/
-    #   version_url: https://www.ocbase.com/download/
-    #   url: https://www.ocbase.com/download/occt/OCCT_{ver}_64bit.zip
-    #   version_pattern: OCCT[_/]?(\d+(?:\.\d+)+)
-    #   note: 17.x 起为 Steam 版（steam_api64 集成），无 Steam 客户端无法启动（数据目录取自 Steam）；
-    #        烤机功能已被清单内 FurMark/Prime95 覆盖，故停用（分层安装器提取逻辑仍保留）
-    - name: FurMark
-      homepage: https://geeks3d.com/furmark/
-      url: https://www.geeks3d.com/dl/get/830
-      pack: false
+  # 烤鸡工具（整个分类停用：OCCT 为 Steam 版无法独立运行，FurMark 与显卡工具重复）
+  #   - name: OCCT
+  #     homepage: https://www.ocbase.com/
+  #     version_url: https://www.ocbase.com/download/
+  #     url: https://www.ocbase.com/download/occt/OCCT_{ver}_64bit.zip
+  #     version_pattern: OCCT[_/]?(\d+(?:\.\d+)+)
+  #     note: 17.x 起为 Steam 版（steam_api64 集成），无 Steam 客户端无法启动（数据目录取自 Steam）；
+  #          烤机功能已被清单内 FurMark/Prime95 覆盖，故停用（分层安装器提取逻辑仍保留）
+  #   - name: FurMark
+  #     homepage: https://geeks3d.com/furmark/
+  #     url: https://www.geeks3d.com/dl/get/830
+  #     pack: false
+  #     note: 与显卡工具/FurMark 完全重复（同一份下载），故停用
 
   综合检测:
     - name: AIDA64 Business
@@ -202,10 +203,10 @@ categories:
     #   url: https://download.cpuid.com/hwmonitor/hwmonitor_{ver}.zip
     #   version_pattern: hwmonitor_([\d.]+)\.zip
     #   note: 传感器监控已被清单内 HWiNFO/LibreHardwareMonitor 覆盖，故停用
-    - name: Speccy
-      homepage: https://www.ccleaner.com/speccy
-      url: https://download.ccleaner.com/spsetup129.exe
-      note: 商业公司免费版；系统信息查看
+    # - name: Speccy
+    # homepage: https://www.ccleaner.com/speccy
+    # url: https://download.ccleaner.com/spsetup129.exe
+    # note: 商业公司免费版；系统信息查看
     - name: RWEverything
       version_url: http://rweverything.com/download/
       url: http://rweverything.com/downloads/RwPortableV{ver}.zip
@@ -244,7 +245,7 @@ categories:
       homepage: https://www.rarlab.com/download.htm
       url: https://www.rarlab.com/rar/winrar-x64-{ver}.exe
       version_pattern: winrar-x64-([\d.]+)\.exe
-      note: 官方安装器为 PE 内嵌 Rar5，自动解出绿色便携版；版本自动解析；RAR 格式标准（7-Zip 不写 RAR）
+      note: 官方安装器为 PE 内嵌 Rar5，自动解出绿色便携版；版本自动解析；RAR 格式标准（7-Zip 不写 RAR），用户指定保留
     - name: Dism++
       homepage: https://github.com/Chuyu-Team/Dism-Multi-language
       github: Chuyu-Team/Dism-Multi-language
@@ -281,27 +282,27 @@ categories:
       homepage: https://learn.microsoft.com/en-us/sysinternals/downloads/tcpview
       url: https://download.sysinternals.com/files/TCPView.zip
       note: Sysinternals 网络连接监控（官网直链，微软自动维护最新版）
-    - name: DesktopOK
-      homepage: https://www.softwareok.com/?seite=Microsoft/DesktopOK
-      url: https://www.softwareok.com/Download/DesktopOK_x64.zip
-    - name: gifcam
-      homepage: https://blog.bahraniapps.com/gifcam/
-      url: http://www.bahraniapps.com/apps/gifcam/GifCamNoSaveSettings.zip
+    # - name: DesktopOK
+    # homepage: https://www.softwareok.com/?seite=Microsoft/DesktopOK
+    # url: https://www.softwareok.com/Download/DesktopOK_x64.zip
+    # - name: gifcam
+    # homepage: https://blog.bahraniapps.com/gifcam/
+    # url: http://www.bahraniapps.com/apps/gifcam/GifCamNoSaveSettings.zip
     - name: UltraISO
       homepage: https://www.ultraiso.com/
       url: https://www.ultraiso.com/uiso9_pe.exe
       note: 免费版（PE 版）；镜像制作/编辑，Ventoy/Rufus 不覆盖
 
-  运行库:
-    # - name: VC++ 运行库合集 (VisualCppRedist AIO)
-    #   homepage: https://github.com/abbodi1406/vcredist
-    #   github: abbodi1406/vcredist
-    #   asset_pattern: VisualCppRedist_AIO_x86_x64\.exe$
-    #   installer: true
-    #   note: 安装器与绿色工具箱理念不符（系统/软件安装时会自动装 VC++），故停用；需要时到 abbodi1406/vcredist 下载
-    # - name: .NET Framework 4.8.1
-    #   homepage: https://dotnet.microsoft.com/download/dotnet-framework
-    #   url: https://go.microsoft.com/fwlink/?linkid=2203305
-    #   filename: NDP481-x86-x64-AllOS-ENU.exe
-    #   installer: true
-    #   note: 安装器与绿色工具箱理念不符（系统自带或软件安装时自动装），故停用；需要时到微软官方下载
+  # 运行库（整个分类停用：安装器与绿色工具箱理念不符，系统或软件安装时自动装，需要时按需下载）
+  #   - name: VC++ 运行库合集 (VisualCppRedist AIO)
+  #     homepage: https://github.com/abbodi1406/vcredist
+  #     github: abbodi1406/vcredist
+  #     asset_pattern: VisualCppRedist_AIO_x86_x64\.exe$
+  #     installer: true
+  #     note: 安装器与绿色工具箱理念不符（系统/软件安装时会自动装 VC++），故停用；需要时到 abbodi1406/vcredist 下载
+  #   - name: .NET Framework 4.8.1
+  #     homepage: https://dotnet.microsoft.com/download/dotnet-framework
+  #     url: https://go.microsoft.com/fwlink/?linkid=2203305
+  #     filename: NDP481-x86-x64-AllOS-ENU.exe
+  #     installer: true
+  #     note: 安装器与绿色工具箱理念不符（系统自带或软件安装时自动装），故停用；需要时到微软官方下载
