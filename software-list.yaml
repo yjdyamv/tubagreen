@@ -30,6 +30,11 @@ categories:
       url: https://www.mersenne.org/download/software/v30/30.19/p95v{ver}.win64.zip
       version_pattern: p95v([\w.]+)\.win64\.zip
       note: 版本自动解析
+    - name: y-cruncher
+      homepage: https://numberworld.org/y-cruncher/
+      url: https://cdn.numberworld.org/y-cruncher-downloads/y-cruncher%20v{ver}.zip
+      version_pattern: y-cruncher%20v([\w.]+)\.zip
+      note: CPU 圆周率计算基准（单文件，作者 Alex Yee），版本自动解析
     - name: ThrottleStop
       homepage: https://www.techpowerup.com/download/techpowerup-throttlestop/
       tpu: techpowerup-throttlestop
@@ -177,6 +182,12 @@ categories:
       github: LibreHardwareMonitor/LibreHardwareMonitor
       asset_pattern: ^LibreHardwareMonitor\.zip$
       note: 开源硬件监控（Open Hardware Monitor 活跃分支，GPL），传感器/温度/电压/风扇监控，AIDA64 监控功能的开源替代
+    - name: LatencyMon
+      homepage: https://www.resplendence.com/latencymon
+      url: https://www.resplendence.com/download/LatencyMon.exe
+      version_pattern: LatencyMon v?\s*([\d.]+)
+      no_extract: true
+      note: DPC 延迟检测（音频爆音/驱动延迟诊断）；下载文件名固定，版本仅作更新提醒
     - name: HWiNFO
       homepage: https://www.hwinfo.com/download/
       ua: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126.0 Safari/537.36
@@ -236,6 +247,11 @@ categories:
       github: Chuyu-Team/Dism-Multi-language
       asset_pattern: Dism\+\+.*\.zip$
       note: 官方仓库已由 Dism-plus-plus 更名，从 Dism-Multi-language 的 Release 自动获取
+    - name: BleachBit
+      homepage: https://github.com/bleachbit/bleachbit
+      github: bleachbit/bleachbit
+      asset_pattern: -portable\.zip$
+      note: 开源系统清理（浏览器缓存/日志/临时文件，GPL），绿色便携版
     - name: Geek Uninstaller
       homepage: https://geekuninstaller.com/
       url: https://geekuninstaller.com/geek.zip
@@ -248,6 +264,11 @@ categories:
     - name: Process Explorer
       homepage: https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer
       url: https://download.sysinternals.com/files/ProcessExplorer.zip
+    - name: System Informer
+      homepage: https://github.com/winsiderss/systeminformer
+      github: winsiderss/systeminformer
+      asset_pattern: ^systeminformer-.*-bin\.zip$
+      note: 开源任务管理器（Process Hacker 继任，GPL），Process Explorer 的开源替代
     - name: Autoruns
       homepage: https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns
       url: https://download.sysinternals.com/files/Autoruns.zip

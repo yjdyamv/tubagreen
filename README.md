@@ -52,15 +52,15 @@ uv run tubagreen --keep-archives  # 保留原始压缩包
 - **更新检查**：`uv run tubagreen --check-updates` 只解析不下载，输出
   `工具 | 当前版本 | 最新版本 | 状态` 对比表。
 
-## 当前状态（56 个条目，其中 10 个已注释停用）
+## 当前状态（60 个条目，其中 10 个已注释停用）
 
-- ✅ **45 个自动下载**：CPU-Z、Prime95、ThrottleStop、GPU-Z、FurMark、nvidiaInspector、
+- ✅ **49 个自动下载**：CPU-Z、Prime95、y-cruncher、ThrottleStop、GPU-Z、FurMark、nvidiaInspector、
   CrystalDiskInfo、CrystalDiskMark、DiskGenius、WizTree、WinDirStat、SpaceSniffer、Ventoy、MediaTester、
-  MemTest86、MemTest86+、RAMMap、HCI MemTest、MemTest64、ZenTimings、AIDA64、LibreHardwareMonitor、
-  HWiNFO、HWMonitor、Speccy、RWEverything、MouseTester、Everything、Rufus、7-Zip ZS、WinRAR、Dism++、
-  Geek、BlueScreenView、BatteryInfoView、Autoruns、TCPView、Process Explorer、DesktopOK、gifcam、
+  MemTest86、MemTest86+、RAMMap、HCI MemTest、MemTest64、ZenTimings、AIDA64、LibreHardwareMonitor、LatencyMon、
+  HWiNFO、HWMonitor、Speccy、RWEverything、MouseTester、Everything、Rufus、7-Zip ZS、WinRAR、Dism++、BleachBit、
+  Geek、BlueScreenView、BatteryInfoView、Autoruns、TCPView、System Informer、Process Explorer、DesktopOK、gifcam、
   VC++ 运行库合集、.NET Framework 4.8.1 等
-- 📦 **免安装单文件**：GPU-Z、MemTest64、Rufus、UltraISO、MediaTester 等
+- 📦 **免安装单文件**：GPU-Z、MemTest64、Rufus、UltraISO、MediaTester、LatencyMon 等
 - 🔧 **安装版**（保留安装程序，需运行安装）：OCCT、VC++ 运行库合集、.NET Framework 4.8.1
 - ⏸️ **10 个已注释停用**（无官方可脚本化来源，功能已被清单内工具覆盖）：DDU、LinX、wPrime、
   SuperPi、dxvachecker、SSD-Z、TxBENCH、AS SSD、Thaiphoon Burner、TM5
