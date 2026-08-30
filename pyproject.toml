@@ -1,0 +1,23 @@
+[project]
+name = "tubagreen"
+version = "0.1.0"
+description = "自动从各软件官网下载图吧工具箱收录的硬件检测工具，按分类组织，绿色免安装"
+readme = "README.md"
+authors = [
+    { name = "yjdyamv", email = "yjdyamv@tutamail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.28",
+    "pyyaml>=6.0",
+]
+
+[project.scripts]
+tubagreen = "tuba_downloader:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["tuba_downloader"]

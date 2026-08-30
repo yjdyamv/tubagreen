@@ -1,0 +1,197 @@
+# ============================================================
+#  图吧工具箱软件清单 —— 自动下载脚本数据源
+# ------------------------------------------------------------
+#  下载方式优先级：
+#   tpu      TechPowerUp 三步下载（自动取最新版 + 选镜像）
+#   github   仓库名 + asset_pattern（自动查最新 Release）
+#   mediafire MediaFire 页面解析直链
+#   url      官网稳定直链（版本更新时手动改）
+#   （无以上字段 = 需手动，见 note 说明原因）
+# ============================================================
+
+categories:
+  处理器工具:
+    - name: CPU-Z
+      homepage: https://www.cpuid.com/softwares/cpu-z.html
+      url: https://download.cpuid.com/cpu-z/cpu-z_2.14-cn.zip
+      note: 官方中文版
+    - name: Core Temp
+      homepage: https://www.alcpu.com/CoreTemp/
+      url: https://www.alcpu.com/CoreTemp/Core-Temp-setup.exe
+      note: Inno 安装器（用 innoextract 自动提取）
+    - name: Prime95
+      homepage: https://www.mersenne.org/download/
+      url: https://www.mersenne.org/download/software/v30/30.19/p95v3019b15.win64.zip
+    - name: ThrottleStop
+      homepage: https://www.techpowerup.com/download/techpowerup-throttlestop/
+      tpu: techpowerup-throttlestop
+    - name: LinX
+      homepage: ""
+      note: 论坛软件无官方源，请从图吧工具箱内提取
+    - name: wPrime
+      homepage: ""
+      note: 老软件官网已失效，请从图吧工具箱内提取
+    - name: SuperPi
+      homepage: ""
+      note: 老软件无官网，请从图吧工具箱内提取
+
+  显卡工具:
+    - name: GPU-Z
+      homepage: https://www.techpowerup.com/gpuz/
+      tpu: techpowerup-gpu-z
+      tpu_pattern: TechPowerUp GPU-Z
+      no_extract: true
+      note: 标准版（排除 ASUS ROG 等定制皮肤版），单文件绿色工具
+    - name: FurMark
+      homepage: https://geeks3d.com/furmark/
+      url: https://www.geeks3d.com/dl/get/771
+      note: FurMark 2.5.0 zip 版（绿色免安装）
+    - name: DDU (Display Driver Uninstaller)
+      homepage: https://www.wagnardsoft.com/display-driver-uninstaller-ddu
+      note: 官网有反爬保护(Cloudflare)，需浏览器手动下载
+    - name: dxvachecker
+      homepage: ""
+      note: 原作者页面已下线，请从图吧工具箱内提取
+    - name: nvidiaInspector
+      homepage: https://www.guru3d.com/download/nvidia-inspector/
+      tpu: nvidia-inspector
+    - name: nvidiaProfileInspector
+      homepage: https://www.guru3d.com/download/nvidia-profile-inspector/
+      tpu: nvidia-profile-inspector
+
+  硬盘工具:
+    - name: CrystalDiskInfo
+      homepage: https://crystalmark.info/en/software/crystaldiskinfo/
+      url: https://downloads.sourceforge.net/project/crystaldiskinfo/9.9.2/CrystalDiskInfo9_9_2.zip
+      note: 版本号过期需到 crystalmark.info 官网核对更新
+    - name: CrystalDiskMark
+      homepage: https://crystalmark.info/en/software/crystaldiskmark/
+      url: https://downloads.sourceforge.net/project/crystaldiskmark/9.0.3/CrystalDiskMark9_0_3.zip
+      note: 版本号过期需到 crystalmark.info 官网核对更新
+    - name: DiskGenius
+      homepage: https://www.diskgenius.com/professional.php
+      url: https://download.eassos.com/DGEng6201829_x64.zip
+      note: 官网 x64 便携版
+    - name: WizTree
+      homepage: https://diskanalyzer.com/
+      url: https://diskanalyzer.com/files/wiztree_4_21_portable.zip
+      note: 官方便携版
+    - name: WinDirStat
+      homepage: https://windirstat.net/
+      github_latest: windirstat/windirstat
+      github_latest_file: WinDirStat.zip
+    - name: SpaceSniffer
+      homepage: https://www.uderzo.it/main_products/space_sniffer/
+      url: https://www.uderzo.it/main_products/space_sniffer/files/spacesniffer_2_2_0_27_x64.zip
+    - name: Ventoy
+      homepage: https://www.ventoy.net/
+      github: ventoy/Ventoy
+      asset_pattern: ventoy-.*-windows\.zip$
+    - name: urwtest
+      homepage: ""
+      note: 作者未发布官方 Release，请从图吧工具箱内提取
+    - name: SSD-Z
+      homepage: ""
+      note: 官网已失效，请从图吧工具箱内提取
+    - name: TxBENCH
+      homepage: ""
+      note: 官网已失效，请从图吧工具箱内提取
+    - name: AS SSD Benchmark
+      homepage: ""
+      note: 官网已失效，请从图吧工具箱内提取
+
+  内存工具:
+    - name: MemTest86
+      homepage: https://www.memtest86.com/download.htm
+      url: https://www.memtest86.com/downloads/memtest86-usb.zip
+      note: 免费版 USB 镜像
+    - name: HCI MemTest
+      homepage: https://hcidesign.com/memtest/download.html
+      url: https://hcidesign.com/memtest/MemTest.zip
+    - name: MemTest64 (TechPowerUp)
+      homepage: https://www.techpowerup.com/download/techpowerup-memtest64/
+      tpu: techpowerup-memtest64
+    - name: ZenTimings
+      homepage: https://github.com/irusanov/ZenTimings
+      github: irusanov/ZenTimings
+      asset_pattern: ZenTimings_.*\.zip$
+    - name: Thaiphoon Burner
+      homepage: https://www.thaiphoonburner.com/
+      note: 官方仅用 MediaFire 托管且文件被标记需验证，请手动下载
+    - name: TM5
+      homepage: ""
+      note: 论坛软件无官方源，请从图吧工具箱内提取
+
+  烤鸡工具:
+    - name: OCCT
+      homepage: https://www.ocbase.com/
+      url: https://www.ocbase.com/download/occt/OCCT_13.1.15_64bit.zip
+      note: 分层安装器（自动解压内嵌分块）
+    - name: FurMark
+      homepage: https://geeks3d.com/furmark/
+      url: https://www.geeks3d.com/dl/get/771
+      note: 与显卡工具同源
+
+  综合检测:
+    - name: AIDA64 Business
+      homepage: https://www.aida64.com/downloads
+      url: https://download.aida64.com/aida64business720.zip
+      post_fix_encoding: Language/lang_cn.txt
+      note: 商业版。提取后自动将中文语言文件 GBK->UTF-8（兼容系统 UTF-8 Beta 模式）
+    - name: HWiNFO
+      homepage: https://www.hwinfo.com/download/
+      url: https://www.hwinfo.com/files/hwi_852.zip
+    - name: HWMonitor
+      homepage: https://www.cpuid.com/softwares/hwmonitor.html
+      url: https://download.cpuid.com/hwmonitor/hwmonitor_1.54.zip
+    - name: Speccy
+      homepage: https://www.ccleaner.com/speccy
+      url: https://download.ccleaner.com/spsetup129.exe
+    - name: RWEverything
+      homepage: http://rweverything.com/
+      url: http://rweverything.com/downloads/RwX64V1.7.zip
+
+  外设工具:
+    - name: showKeyBoard
+      homepage: https://github.com/pattazl/showKeyBoard
+      github: pattazl/showKeyBoard
+      asset_pattern: .*\.7z$
+      note: 开源键盘测试工具（替代官网已失效的 Keyboard Test Utility），选 7z 便携版
+    - name: MouseTester
+      homepage: https://github.com/microe1/MouseTester
+      github: microe1/MouseTester
+      asset_pattern: Release_v.*\.zip$
+
+  其他工具:
+    - name: Everything
+      homepage: https://www.voidtools.com/
+      url: https://www.voidtools.com/Everything-1.4.1.1026.x64.zip
+    - name: Rufus
+      homepage: https://rufus.ie/
+      github: pbatard/rufus
+      asset_pattern: ^rufus-.*\.exe$
+    - name: Dism++
+      homepage: https://github.com/Chuyu-Team/Dism-plus-plus
+      note: 作者仅在官网/网盘发布，请手动下载
+    - name: Geek Uninstaller
+      homepage: https://geekuninstaller.com/
+      url: https://geekuninstaller.com/geek.zip
+    - name: BlueScreenView
+      homepage: https://www.nirsoft.net/utils/blue_screen_view.html
+      url: https://www.nirsoft.net/utils/bluescreenview.zip
+    - name: BatteryInfoView
+      homepage: https://www.nirsoft.net/utils/battery_information_view.html
+      url: https://www.nirsoft.net/utils/batteryinfoview.zip
+    - name: Process Explorer
+      homepage: https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer
+      url: https://download.sysinternals.com/files/ProcessExplorer.zip
+    - name: DesktopOK
+      homepage: https://www.softwareok.com/?seite=Microsoft/DesktopOK
+      url: https://www.softwareok.com/Download/DesktopOK_x64.zip
+    - name: gifcam
+      homepage: https://blog.bahraniapps.com/gifcam/
+      url: http://www.bahraniapps.com/apps/gifcam/GifCamNoSaveSettings.zip
+    - name: UltraISO
+      homepage: https://www.ultraiso.com/
+      url: https://www.ultraiso.com/uiso9_pe.exe
+      note: 免费版（PE 版）

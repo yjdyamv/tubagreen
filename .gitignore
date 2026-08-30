@@ -1,0 +1,16 @@
+# ===== Python / uv =====
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+
+# ===== 下载产物（不入库，运行时自动重建）=====
+tools/
+.download-state.yaml
+
+# ===== 编辑器/系统 =====
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+.DS_Store
