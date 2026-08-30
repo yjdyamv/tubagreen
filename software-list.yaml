@@ -95,13 +95,15 @@ categories:
       url: https://diskanalyzer.com/files/wiztree_{ver}_portable.zip
       version_pattern: wiztree_([\d_]+)_portable\.zip
       note: 官方便携版，版本自动解析
-    - name: WinDirStat
-      homepage: https://windirstat.net/
-      github_latest: windirstat/windirstat
-      github_latest_file: WinDirStat.zip
-    - name: SpaceSniffer
-      homepage: https://www.uderzo.it/main_products/space_sniffer/
-      url: https://www.uderzo.it/main_products/space_sniffer/files/spacesniffer_2_2_0_27_x64.zip
+    # - name: WinDirStat
+    #   homepage: https://windirstat.net/
+    #   github_latest: windirstat/windirstat
+    #   github_latest_file: WinDirStat.zip
+    #   note: 磁盘空间分析已被清单内 WizTree（更快）覆盖，故停用
+    # - name: SpaceSniffer
+    #   homepage: https://www.uderzo.it/main_products/space_sniffer/
+    #   url: https://www.uderzo.it/main_products/space_sniffer/files/spacesniffer_2_2_0_27_x64.zip
+    #   note: 磁盘空间分析已被清单内 WizTree 覆盖，故停用
     - name: Ventoy
       homepage: https://www.ventoy.net/
       github: ventoy/Ventoy
@@ -145,11 +147,11 @@ categories:
     - name: HCI MemTest
       homepage: https://hcidesign.com/memtest/download.html
       url: https://hcidesign.com/memtest/MemTest.zip
-    - name: MemTest64 (TechPowerUp)
-      homepage: https://www.techpowerup.com/download/techpowerup-memtest64/
-      tpu: techpowerup-memtest64
-      no_extract: true
-      note: 单文件绿色工具
+    # - name: MemTest64 (TechPowerUp)
+    #   homepage: https://www.techpowerup.com/download/techpowerup-memtest64/
+    #   tpu: techpowerup-memtest64
+    #   no_extract: true
+    #   note: Windows 内内存测试已被清单内 HCI MemTest 覆盖，故停用
     - name: ZenTimings
       homepage: https://github.com/irusanov/ZenTimings
       github: irusanov/ZenTimings
@@ -199,11 +201,11 @@ categories:
       url: https://www.hwinfo.com/files/hwi_{ver}.zip
       version_pattern: hwi_(\d+)\.zip
       note: 版本自动解析；该站封 curl UA 需浏览器 UA
-    - name: HWMonitor
-      homepage: https://www.cpuid.com/softwares/hwmonitor.html
-      url: https://download.cpuid.com/hwmonitor/hwmonitor_{ver}.zip
-      version_pattern: hwmonitor_([\d.]+)\.zip
-      note: 版本自动解析
+    # - name: HWMonitor
+    #   homepage: https://www.cpuid.com/softwares/hwmonitor.html
+    #   url: https://download.cpuid.com/hwmonitor/hwmonitor_{ver}.zip
+    #   version_pattern: hwmonitor_([\d.]+)\.zip
+    #   note: 传感器监控已被清单内 HWiNFO/LibreHardwareMonitor 覆盖，故停用
     - name: Speccy
       homepage: https://www.ccleaner.com/speccy
       url: https://download.ccleaner.com/spsetup129.exe
@@ -269,9 +271,10 @@ categories:
     - name: BatteryInfoView
       homepage: https://www.nirsoft.net/utils/battery_information_view.html
       url: https://www.nirsoft.net/utils/batteryinfoview.zip
-    - name: Process Explorer
-      homepage: https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer
-      url: https://download.sysinternals.com/files/ProcessExplorer.zip
+    # - name: Process Explorer
+    #   homepage: https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer
+    #   url: https://download.sysinternals.com/files/ProcessExplorer.zip
+    #   note: 进程管理已被清单内 System Informer（开源更全）覆盖，故停用
     - name: System Informer
       homepage: https://github.com/winsiderss/systeminformer
       github: winsiderss/systeminformer

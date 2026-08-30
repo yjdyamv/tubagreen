@@ -52,30 +52,33 @@ uv run tubagreen --keep-archives  # 保留原始压缩包
 - **更新检查**：`uv run tubagreen --check-updates` 只解析不下载，输出
   `工具 | 当前版本 | 最新版本 | 状态` 对比表。
 
-## 当前状态（64 个条目，其中 14 个已注释停用）
+## 当前状态（63 个条目，其中 19 个已注释停用）
 
-- ✅ **42 个自动下载**：CPU-Z、Prime95、ThrottleStop、GPU-Z、FurMark 2.10.2、nvidiaInspector、
-  CrystalDiskInfo、CrystalDiskMark、DiskGenius、WizTree、WinDirStat、SpaceSniffer、Ventoy、MediaTester、
-  MemTest86+、RAMMap、HCI MemTest、MemTest64、ZenTimings、AIDA64、LibreHardwareMonitor、LatencyMon、
-  HWiNFO、HWMonitor、Speccy、RWEverything、MouseTester、Everything、Rufus、7-Zip ZS、WinRAR、Dism++、BleachBit、
-  Geek、BlueScreenView、BatteryInfoView、Autoruns、TCPView、System Informer、Process Explorer、DesktopOK、gifcam、
+- ✅ **37 个自动下载**：CPU-Z、Prime95、ThrottleStop、GPU-Z、FurMark 2.10.2、nvidiaInspector、
+  CrystalDiskInfo、CrystalDiskMark、DiskGenius、WizTree、Ventoy、MediaTester、
+  MemTest86+、RAMMap、HCI MemTest、ZenTimings、AIDA64、LibreHardwareMonitor、LatencyMon、
+  HWiNFO、Speccy、RWEverything、MouseTester、Everything、Rufus、7-Zip ZS、WinRAR、Dism++、BleachBit、
+  Geek、BlueScreenView、BatteryInfoView、Autoruns、TCPView、System Informer、DesktopOK、gifcam、
   VC++ 运行库合集、.NET Framework 4.8.1 等
-- 📦 **免安装单文件**：GPU-Z、MemTest64、Rufus、UltraISO、MediaTester、LatencyMon 等
+- 📦 **免安装单文件**：GPU-Z、Rufus、UltraISO、MediaTester、LatencyMon 等
 - 🔧 **安装版**（保留安装程序，需运行安装）：VC++ 运行库合集、.NET Framework 4.8.1
-- ⏸️ **14 个已注释停用**（无官方可脚本化来源，或功能已被清单内工具覆盖/替代）：OCCT、y-cruncher、DDU、LinX、wPrime、
-  SuperPi、dxvachecker、urwtest、SSD-Z、TxBENCH、AS SSD、MemTest86、Thaiphoon Burner、TM5
+- ⏸️ **19 个已注释停用**（无官方可脚本化来源，或功能已被清单内工具覆盖/替代）：OCCT、y-cruncher、DDU、LinX、wPrime、
+  SuperPi、dxvachecker、urwtest、SSD-Z、TxBENCH、AS SSD、MemTest86、Thaiphoon Burner、TM5、WinDirStat、
+  SpaceSniffer、MemTest64、HWMonitor、Process Explorer
 
 ## 发布包策略
 
 - `pack: false` 标记的工具（8 个：DiskGenius、烤鸡工具/FurMark、AIDA64、Speccy、WinRAR、UltraISO、
   VC++ 运行库合集、.NET Framework 4.8.1）**只下载到本地工具箱、不进发布包**（商业软件/体积大/重复）；
-- CI 打包时 `uv run tubagreen --pack-exclude` 自动生成排除列表，7z 按清单排除；
-- 发布包实测约 **400MB**（排除后）。
+- CI 打包时 `uv run tubagreen --pack-exclude` 自动生成排除列表，另裁掉 System Informer 的
+  arm64/i386 架构（只留 amd64）；
+- 发布包实测约 **320MB**（打包前 782MB，7z mx=5）。
 
 ## 体积瘦身
 
 已删除/停用的大体积或不可用项：MemTest86（USB 镜像 1GB，被 MemTest86+ 替代）、OCCT（17.x 起为
-Steam 版无法独立运行）、y-cruncher（154MB 纯娱乐跑分）。
+Steam 版无法独立运行）、y-cruncher（154MB 纯娱乐跑分），以及 5 个功能重复工具
+（WinDirStat/SpaceSniffer→WizTree、Process Explorer→System Informer、HWMonitor→HWiNFO、MemTest64→HCI MemTest）。
 
 ## 输出结构
 
