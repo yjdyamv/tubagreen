@@ -1,0 +1,87 @@
+# ============================================================
+# 工具箱自动构建 Release
+#   触发：
+#     - 手动（Actions 页面点 Run workflow）
+#     - 定时（每月 1 日 02:00 UTC，cron 可改）
+#   流程：全量下载 + 提取（自动跟随最新版）→ 7z 打包 → 创建 GitHub Release
+# ============================================================
+name: Build Toolbox Release
+
+on:  # 触发事件（GitHub Actions 标准写法）
+  workflow_dispatch:            # 手动触发
+  schedule:
+    - cron: '0 2 1 * *'         # 每月 1 日 02:00 UTC（北京时间 10:00）
+
+permissions:
+  contents: write               # 创建 Release 需要
+
+concurrency:
+  group: toolbox-build
+  cancel-in-progress: false     # 不打断进行中的构建（避免下载到一半被取消）
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 120
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 安装 uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: 同步依赖
+        run: uv sync --frozen
+
+      # 全量下载 + 提取：32 个自动更新条目跟随最新版；
+      # 固定 URL 条目已提取则跳过（不会重复下载）。
+      - name: 下载并提取全部工具
+        run: uv run tubagreen --parallel 2
+
+      - name: 生成版本号
+        id: ver
+        shell: pwsh
+        run: |
+          $date = Get-Date -Format 'yyyy.MM'
+          $tag  = "toolbox-$date-${{ github.run_number }}"
+          "tag=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "name=工具箱 $date (构建 #${{ github.run_number }})" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "date=$date" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: 清理旧 Release（保留最近 3 个，避免 GitHub Free 2GB 资产上限）
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release list --limit 50 | Select-Object -Skip 3 | ForEach-Object {
+            $t = ($_ -split "\s+")[0]
+            if ($t -like "toolbox-*") {
+              Write-Host "删除旧 Release: $t"
+              gh release delete $t --yes --cleanup-tag
+            }
+          }
+
+      - name: 打包 7z（排除 _tools 引擎与报告）
+        shell: pwsh
+        run: |
+          & 'C:\Program Files\7-Zip\7z.exe' a -t7z -mx=5 `
+            "toolbox-${{ steps.ver.outputs.tag }}.7z" `
+            "tools\*" -xr!tools\_tools\* -xr!tools\下载报告.txt
+
+      - name: 创建 Release 并上传资产
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $tag = "${{ steps.ver.outputs.tag }}"
+          $notes = @"
+          ## 工具箱自动构建
+          - 触发时间：$(Get-Date -Format 'yyyy-MM-dd HH:mm') UTC
+          - 自动更新条目：32 个（GitHub Release 跟随 + 官网版本解析）
+          - 固定 URL 条目：18 个（Sysinternals 等直链由官方维护，其余需手动核对）
+          ### 使用
+          下载 7z → 解压 → 进入对应分类目录双击运行。
+          > 注意：内含商业软件（WinRAR/UltraISO/AIDA64 试用版等），请勿公开分发。
+          "@
+          $notes | Out-File -FilePath notes.md -Encoding utf8
+          gh release create $tag "toolbox-$tag.7z" `
+            --title "${{ steps.ver.outputs.name }}" `
+            --notes-file notes.md
