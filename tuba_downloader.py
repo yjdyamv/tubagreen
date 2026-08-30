@@ -538,7 +538,8 @@ def download_one(client: httpx.Client, tool: Tool, out_dir: Path, force: bool,
             tool.resolved_url, tool.filename = resolve_tpu(client, tool.tpu, tool.tpu_pattern)
         elif tool.url:
             tool.resolved_url = tool.url
-            tool.filename = tool.url.split("/")[-1].split("?")[0]
+            # filename 可在清单中显式指定（如 fwlink 跳转链接无法从 URL 推导文件名）
+            tool.filename = tool.filename or tool.url.split("/")[-1].split("?")[0]
             # 版本自动更新：抓版本页取最新版，套 {ver} 模板生成直链；失败不回退含占位符的 URL
             if tool.version_pattern:
                 try:
@@ -546,7 +547,10 @@ def download_one(client: httpx.Client, tool: Tool, out_dir: Path, force: bool,
                     tool.resolved_version = v
                     if "{" in tool.resolved_url:
                         tool.resolved_url = tool.resolved_url.format(ver=v, ver_nodot=v.replace(".", "_"))
-                        tool.filename = tool.resolved_url.split("/")[-1].split("?")[0]
+                        if "{ver}" in tool.filename:
+                            tool.filename = tool.filename.format(ver=v, ver_nodot=v.replace(".", "_"))
+                        else:
+                            tool.filename = tool.resolved_url.split("/")[-1].split("?")[0]
                         log(f"[版本] {tool.category}/{tool.name}  最新 {v} -> {tool.filename}")
                 except Exception as e:
                     if "{" in tool.resolved_url:
@@ -614,6 +618,14 @@ def download_one(client: httpx.Client, tool: Tool, out_dir: Path, force: bool,
                 last_err = e
                 start = part.stat().st_size if part.exists() else 0
                 continue
+            except RuntimeError as e:
+                # _fetch_to_part 所有源均失败（含 curl 兜底瞬时失败）→ 外层重试
+                if attempt < MAX_RETRIES:
+                    last_err = e
+                    start = part.stat().st_size if part.exists() else 0
+                    continue
+                res.detail = f"{type(e).__name__}: {e}"
+                return res
             except httpx.HTTPStatusError as e:
                 # 瞬态状态码（限流/服务端抖动）重试，永久性错误（404 等）直接失败
                 if e.response.status_code in (403, 429, 500, 502, 503, 504) and attempt < MAX_RETRIES:

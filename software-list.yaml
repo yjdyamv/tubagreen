@@ -126,6 +126,15 @@ categories:
       url: https://www.memtest86.com/downloads/memtest86-usb.zip
       version_pattern: MemTest86\s*V?([\d.]+)
       note: 免费版 USB 镜像（下载文件名固定，版本仅作更新提醒）；该站封 curl UA 需浏览器 UA
+    - name: MemTest86+
+      homepage: https://www.memtest.org/
+      url: https://www.memtest.org/download/v{ver}/mt86plus_{ver}_x86_64.iso.zip
+      version_pattern: download/v([\d.]+)/mt86plus
+      note: 免费开源启动盘内存测试（活跃开发，支持新平台）；ISO 用工具箱内 Rufus/Ventoy 写入U盘
+    - name: RAMMap
+      homepage: https://learn.microsoft.com/en-us/sysinternals/downloads/rammap
+      url: https://download.sysinternals.com/files/RAMMap.zip
+      note: Sysinternals 物理内存占用分析（官网直链，微软自动维护最新版）
     - name: HCI MemTest
       homepage: https://hcidesign.com/memtest/download.html
       url: https://hcidesign.com/memtest/MemTest.zip
@@ -163,6 +172,11 @@ categories:
       url: https://download.aida64.com/aida64business720.zip
       post_fix_encoding: Language/lang_cn.txt
       note: 商业版。提取后自动将中文语言文件 GBK->UTF-8（兼容系统 UTF-8 Beta 模式）
+    - name: LibreHardwareMonitor
+      homepage: https://github.com/LibreHardwareMonitor/LibreHardwareMonitor
+      github: LibreHardwareMonitor/LibreHardwareMonitor
+      asset_pattern: ^LibreHardwareMonitor\.zip$
+      note: 开源硬件监控（Open Hardware Monitor 活跃分支，GPL），传感器/温度/电压/风扇监控，AIDA64 监控功能的开源替代
     - name: HWiNFO
       homepage: https://www.hwinfo.com/download/
       ua: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126.0 Safari/537.36
@@ -234,6 +248,14 @@ categories:
     - name: Process Explorer
       homepage: https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer
       url: https://download.sysinternals.com/files/ProcessExplorer.zip
+    - name: Autoruns
+      homepage: https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns
+      url: https://download.sysinternals.com/files/Autoruns.zip
+      note: Sysinternals 自启动项管理（官网直链，微软自动维护最新版）
+    - name: TCPView
+      homepage: https://learn.microsoft.com/en-us/sysinternals/downloads/tcpview
+      url: https://download.sysinternals.com/files/TCPView.zip
+      note: Sysinternals 网络连接监控（官网直链，微软自动维护最新版）
     - name: DesktopOK
       homepage: https://www.softwareok.com/?seite=Microsoft/DesktopOK
       url: https://www.softwareok.com/Download/DesktopOK_x64.zip
@@ -244,3 +266,17 @@ categories:
       homepage: https://www.ultraiso.com/
       url: https://www.ultraiso.com/uiso9_pe.exe
       note: 免费版（PE 版）
+
+  运行库:
+    - name: VC++ 运行库合集 (VisualCppRedist AIO)
+      homepage: https://github.com/abbodi1406/vcredist
+      github: abbodi1406/vcredist
+      asset_pattern: VisualCppRedist_AIO_x86_x64\.exe$
+      installer: true
+      note: 2005-2022 全版本 VC++ 运行库一体安装包（社区标准项目，内含微软官方二进制），安装器需运行安装
+    - name: .NET Framework 4.8.1
+      homepage: https://dotnet.microsoft.com/download/dotnet-framework
+      url: https://go.microsoft.com/fwlink/?linkid=2203305
+      filename: NDP481-x86-x64-AllOS-ENU.exe
+      installer: true
+      note: 微软官方离线安装包（x86/x64 全系统），安装器需运行安装
