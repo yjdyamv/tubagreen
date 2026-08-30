@@ -202,7 +202,7 @@ def load_manifest() -> list[Tool]:
     data = yaml.safe_load(MANIFEST.read_text(encoding="utf-8"))
     tools: list[Tool] = []
     for cat, items in data["categories"].items():
-        for it in items:
+        for it in items or []:  # 空分类（全条目注释停用）安全跳过
             tools.append(Tool(name=it["name"], category=cat,
                               **{k: v for k, v in it.items() if k != "name"}))
     return tools

@@ -87,8 +87,7 @@ categories:
     - name: DiskGenius
       homepage: https://www.diskgenius.com/professional.php
       url: https://download.eassos.com/DGEng6201829_x64.zip
-      pack: false
-      note: 官网 x64 便携版；商业软件，不入发布包
+      note: 官网 x64 便携版；分区管理神器（免费版功能完整）
     - name: WizTree
       homepage: https://diskanalyzer.com/
       version_url: https://diskanalyzer.com/download
@@ -175,16 +174,13 @@ categories:
       homepage: https://geeks3d.com/furmark/
       url: https://www.geeks3d.com/dl/get/830
       pack: false
-      note: 与显卡工具同源（FurMark 2.10.2），重复条目不入发布包
 
   综合检测:
     - name: AIDA64 Business
       homepage: https://www.aida64.com/downloads
       url: https://download.aida64.com/aida64business720.zip
       post_fix_encoding: Language/lang_cn.txt
-      pack: false
-      note: 商业试用版（会过期）+ 体积大，不入发布包；监控功能由 LibreHardwareMonitor/HWiNFO 覆盖
-    - name: LibreHardwareMonitor
+      note: 商业试用版（30 天，会过期）；信息+基准+烤机全能，功能强大
       homepage: https://github.com/LibreHardwareMonitor/LibreHardwareMonitor
       github: LibreHardwareMonitor/LibreHardwareMonitor
       asset_pattern: ^LibreHardwareMonitor\.zip$
@@ -209,10 +205,8 @@ categories:
     - name: Speccy
       homepage: https://www.ccleaner.com/speccy
       url: https://download.ccleaner.com/spsetup129.exe
-      pack: false
-      note: 商业公司免费版，不入发布包；系统信息由 HWiNFO 覆盖
+      note: 商业公司免费版；系统信息查看
     - name: RWEverything
-      homepage: http://rweverything.com/
       version_url: http://rweverything.com/download/
       url: http://rweverything.com/downloads/RwPortableV{ver}.zip
       version_pattern: RwPortableV([\d.]+)\.zip
@@ -250,8 +244,7 @@ categories:
       homepage: https://www.rarlab.com/download.htm
       url: https://www.rarlab.com/rar/winrar-x64-{ver}.exe
       version_pattern: winrar-x64-([\d.]+)\.exe
-      pack: false
-      note: 官方安装器为 PE 内嵌 Rar5，自动解出绿色便携版；版本自动解析；商业软件，不入发布包
+      note: 官方安装器为 PE 内嵌 Rar5，自动解出绿色便携版；版本自动解析；RAR 格式标准（7-Zip 不写 RAR）
     - name: Dism++
       homepage: https://github.com/Chuyu-Team/Dism-Multi-language
       github: Chuyu-Team/Dism-Multi-language
@@ -297,21 +290,18 @@ categories:
     - name: UltraISO
       homepage: https://www.ultraiso.com/
       url: https://www.ultraiso.com/uiso9_pe.exe
-      pack: false
-      note: 免费版（PE 版）；商业软件，不入发布包
+      note: 免费版（PE 版）；镜像制作/编辑，Ventoy/Rufus 不覆盖
 
   运行库:
-    - name: VC++ 运行库合集 (VisualCppRedist AIO)
-      homepage: https://github.com/abbodi1406/vcredist
-      github: abbodi1406/vcredist
-      asset_pattern: VisualCppRedist_AIO_x86_x64\.exe$
-      installer: true
-      pack: false
-      note: 2005-2022 全版本 VC++ 运行库一体安装包（社区标准项目，内含微软官方二进制），安装器需运行安装；体积大不入发布包，需要时按需下载
-    - name: .NET Framework 4.8.1
-      homepage: https://dotnet.microsoft.com/download/dotnet-framework
-      url: https://go.microsoft.com/fwlink/?linkid=2203305
-      filename: NDP481-x86-x64-AllOS-ENU.exe
-      installer: true
-      pack: false
-      note: 微软官方离线安装包（x86/x64 全系统），安装器需运行安装；体积大不入发布包，需要时按需下载
+    # - name: VC++ 运行库合集 (VisualCppRedist AIO)
+    #   homepage: https://github.com/abbodi1406/vcredist
+    #   github: abbodi1406/vcredist
+    #   asset_pattern: VisualCppRedist_AIO_x86_x64\.exe$
+    #   installer: true
+    #   note: 安装器与绿色工具箱理念不符（系统/软件安装时会自动装 VC++），故停用；需要时到 abbodi1406/vcredist 下载
+    # - name: .NET Framework 4.8.1
+    #   homepage: https://dotnet.microsoft.com/download/dotnet-framework
+    #   url: https://go.microsoft.com/fwlink/?linkid=2203305
+    #   filename: NDP481-x86-x64-AllOS-ENU.exe
+    #   installer: true
+    #   note: 安装器与绿色工具箱理念不符（系统自带或软件安装时自动装），故停用；需要时到微软官方下载
