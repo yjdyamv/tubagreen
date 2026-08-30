@@ -1,8 +1,7 @@
-# tubagreen —— 图吧工具箱软件官网自动下载器
+# 我的硬件工具箱 —— 官方源自动下载器
 
-自动从**各软件官方网站**下载图吧工具箱收录的硬件检测工具，
-下载后自动解压成**绿色便携版**，按分类组织 —— 效果等同图吧工具箱，
-但全部来自官方源、永远最新版、且**优先 Pro 试用版**（如 AIDA64、HDTune Pro、DiskGenius 专业版）。
+自动从**各软件官方网站 / 官方 GitHub Release** 下载硬件检测、烤机、磁盘、内存等维护工具，
+下载后自动解压成**绿色便携版**，按分类组织 —— 一个全官方源、永远最新版的个人工具箱。
 
 ## 特性
 
@@ -16,7 +15,7 @@
 ## 用法
 
 ```bash
-cd C:\Users\yuan\projects\tubagreen
+cd C:\Users\yuan\Desktop\tubagreen
 
 uv run tubagreen              # 全量下载 + 提取
 uv run tubagreen --list       # 查看软件清单
@@ -38,6 +37,9 @@ uv run tubagreen --keep-archives  # 保留原始压缩包
 | `installer: true` | 安装版，无法提取（保留安装程序） |
 | `no_extract: true` | 单文件绿色工具，跳过提取 |
 
+**收录原则**：只收官方 / 官方 GitHub 来源；无官方可脚本化来源的工具直接注释停用
+（见 `software-list.yaml` 中对应 note 的停用原因与替代品说明）。
+
 ## 当前状态（52 个条目，其中 10 个已注释停用）
 
 - ✅ **41 个自动下载**：CPU-Z、Prime95、ThrottleStop、GPU-Z、FurMark、nvidiaInspector、
@@ -47,9 +49,8 @@ uv run tubagreen --keep-archives  # 保留原始压缩包
   BatteryInfoView、Process Explorer、DesktopOK、gifcam 等
 - 📦 **免安装单文件**：GPU-Z、MemTest64、Rufus、UltraISO、MediaTester 等
 - 🔧 **安装版**（分层加密结构，自动解压内嵌分块）：OCCT
-- ⏸️ **10 个已注释停用**（无官方/镜像可脚本化来源，功能已被清单内工具覆盖，见
-  software-list.yaml 中对应 note）：DDU、LinX、wPrime、SuperPi、dxvachecker、SSD-Z、TxBENCH、
-  AS SSD、Thaiphoon Burner、TM5
+- ⏸️ **10 个已注释停用**（无官方可脚本化来源，功能已被清单内工具覆盖）：DDU、LinX、wPrime、
+  SuperPi、dxvachecker、SSD-Z、TxBENCH、AS SSD、Thaiphoon Burner、TM5
 
 ## 输出结构
 
@@ -57,7 +58,9 @@ uv run tubagreen --keep-archives  # 保留原始压缩包
 tools/
 ├── 处理器工具/CPU-Z/           # 绿色目录（zip 自动解压）
 ├── 硬盘工具/CrystalDiskInfo/
-├── 综合检测/AIDA64 Extreme/
+├── 综合检测/AIDA64 Business/
+├── 其他工具/7-Zip ZS/          # 便携版
+├── 其他工具/WinRAR/            # 便携版
 ├── 下载报告.txt                # 每次运行后的详细报告
 ```
 

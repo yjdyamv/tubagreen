@@ -1,4 +1,4 @@
-"""tuba-downloader —— 自动从官网下载图吧工具箱收录的硬件检测工具。
+"""tuba-downloader —— 自动从官网下载硬件检测工具，解压绿色便携版，组成个人工具箱。
 
 工作流：官网直链/GitHub/TechPowerUp 解析 → 断点续传下载 → 7-Zip ZS / innoextract
 自动提取 → 绿色便携版目录（tools/<分类>/<工具名>/）→ 实时报告。
@@ -562,7 +562,7 @@ def write_report(results: list[Result]) -> tuple[int, int, int, int]:
     fail = [r for r in results if r.status == "fail"]
     lines = [
         "=" * 50,
-        "图吧工具箱软件自动下载报告",
+        "硬件工具箱软件自动下载报告",
         f"时间: {time.strftime('%Y-%m-%d %H:%M:%S')}",
         "=" * 50,
         f"\n【绿色便携版 {len(ok)} 个】",
@@ -689,7 +689,7 @@ def run(args: argparse.Namespace) -> int:
 
 
 def main() -> None:
-    p = argparse.ArgumentParser(description="图吧工具箱软件官网自动下载器")
+    p = argparse.ArgumentParser(description="硬件工具箱软件官网自动下载器")
     p.add_argument("--list", action="store_true", help="列出软件清单")
     p.add_argument("-c", "--category", help="只下载指定分类")
     p.add_argument("-o", "--only", help="只下载指定工具（逗号分隔）")

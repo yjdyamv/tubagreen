@@ -1,7 +1,7 @@
 [project]
 name = "tubagreen"
 version = "0.1.0"
-description = "自动从各软件官网下载图吧工具箱收录的硬件检测工具，按分类组织，绿色免安装"
+description = "自动从各软件官网/官方 GitHub 下载硬件检测工具，按分类组织，绿色免安装"
 readme = "README.md"
 authors = [
     { name = "yjdyamv", email = "yjdyamv@tutamail.com" }
