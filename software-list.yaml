@@ -133,9 +133,10 @@ categories:
     #   note: 与清单内 MemTest86+ 同功能（启动盘内存测试），且免费版 USB 镜像高达 1GB，故停用省体积；MemTest86+ 开源活跃仅 6MB
     - name: MemTest86+
       homepage: https://www.memtest.org/
-      url: https://www.memtest.org/download/v{ver}/mt86plus_{ver}_x86_64.iso.zip
+      url: https://www.memtest.org/download/v{ver}/mt86plus_{ver}_USB_Installer.exe
       version_pattern: download/v([\d.]+)/mt86plus
-      note: 免费开源启动盘内存测试（活跃开发，支持新平台）；ISO 用工具箱内 Rufus/Ventoy 写入U盘
+      installer: true
+      note: 免费开源启动盘内存测试；官方 Windows 写入工具：双击运行→选U盘→Install（写入时需联网）；备用：ISO 版用工具箱内 Rufus/Ventoy 写入
     - name: RAMMap
       homepage: https://learn.microsoft.com/en-us/sysinternals/downloads/rammap
       url: https://download.sysinternals.com/files/RAMMap.zip
