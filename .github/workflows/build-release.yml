@@ -80,6 +80,6 @@ jobs:
           > 注意：内含商业软件（WinRAR/UltraISO/AIDA64 试用版等），请勿公开分发。
           "@
           $notes | Out-File -FilePath notes.md -Encoding utf8
-          gh release create $tag "toolbox-$tag.7z" `
+          gh release create $tag "$tag.7z" `
             --title "${{ steps.ver.outputs.name }}" `
             --notes-file notes.md
