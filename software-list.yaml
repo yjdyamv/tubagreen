@@ -57,8 +57,8 @@ categories:
       note: 标准版（排除 ASUS ROG 等定制皮肤版），单文件绿色工具
     - name: FurMark
       homepage: https://geeks3d.com/furmark/
-      url: https://www.geeks3d.com/dl/get/771
-      note: FurMark 2.5.0 zip 版（绿色免安装）
+      url: https://www.geeks3d.com/dl/get/830
+      note: FurMark 2.10.2 zip 版（绿色免安装）；Geeks3D 的 dl ID 按版本固定，出新版时到 furmark/downloads 核对新 ID
     # - name: DDU (Display Driver Uninstaller)
     #   homepage: https://www.wagnardsoft.com/display-driver-uninstaller-ddu
     #   note: 官方站 wagnardsoft.com 下载按钮为 JS 注入+Cloudflare，无法脚本化；官方 GitHub 仓库 Wagnard/display-drivers-uninstaller 仅源码无 Release；
@@ -161,16 +161,17 @@ categories:
     #   note: 论坛软件无官方源；内存稳定性测试已被清单内 MemTest86/HCI MemTest 覆盖，故停用
 
   烤鸡工具:
-    - name: OCCT
-      homepage: https://www.ocbase.com/
-      version_url: https://www.ocbase.com/download/
-      url: https://www.ocbase.com/download/occt/OCCT_{ver}_64bit.zip
-      version_pattern: OCCT[_/]?(\d+(?:\.\d+)+)
-      note: 分层安装器（自动解压内嵌分块）；版本自动解析
+    # - name: OCCT
+    #   homepage: https://www.ocbase.com/
+    #   version_url: https://www.ocbase.com/download/
+    #   url: https://www.ocbase.com/download/occt/OCCT_{ver}_64bit.zip
+    #   version_pattern: OCCT[_/]?(\d+(?:\.\d+)+)
+    #   note: 17.x 起为 Steam 版（steam_api64 集成），无 Steam 客户端无法启动（数据目录取自 Steam）；
+    #        烤机功能已被清单内 FurMark/Prime95 覆盖，故停用（分层安装器提取逻辑仍保留）
     - name: FurMark
       homepage: https://geeks3d.com/furmark/
-      url: https://www.geeks3d.com/dl/get/771
-      note: 与显卡工具同源
+      url: https://www.geeks3d.com/dl/get/830
+      note: 与显卡工具同源（FurMark 2.10.2）
 
   综合检测:
     - name: AIDA64 Business
