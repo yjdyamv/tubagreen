@@ -317,7 +317,7 @@ def resolve_version(client: httpx.Client, page_url: str, pattern: str, ua: str =
 # 提取引擎（把下载文件解压成绿色便携版）
 # ---------------------------------------------------------------
 # 安装器残留特征（NSIS 插件目录、卸载程序等）
-INSTALLER_JUNK = re.compile(r"^(unins\d+\.exe|uninst\.exe|uninstall\.exe|uninstaller\.exe|\$PLUGINSDIR|\$[A-Z]+)$", re.I)
+INSTALLER_JUNK = re.compile(r"^(unins\d+\.exe|uninst\.exe|uninstall\.exe|uninstaller\.exe|\$PLUGINSDIR|\$[A-Z]+|\d+)$", re.I)
 
 
 def try_innoextract(archive: Path, tmp: Path) -> bool:
@@ -333,19 +333,27 @@ def try_innoextract(archive: Path, tmp: Path) -> bool:
 
 
 def probe_type(archive: Path) -> str:
-    """探测文件类型：archive / nsis / pe-sfx（含内嵌数据） / pe（纯） / unknown。"""
+    """探测文件类型：archive / nsis / pe-sfx（含内嵌数据） / pe（纯） / unknown。
+    PE 内嵌 zip 可能是多段拼接（OCCT 分层安装器），需 -t# 提取；
+    PE 内嵌 Rar5/7z 是单个完整归档（WinRAR 等），普通解压即可。"""
     try:
         r = sevenzip(["l", str(archive)])
     except Exception:
         return "unknown"
     types = re.findall(r"^Type = (\w+)", r.stdout, re.M)
     has_embed = bool(re.search(r"^Path = \[0\]", r.stdout, re.M))
-    if "Nsis" in types or "Inno" in types:
+    primary = types[0] if types else ""
+    if primary in ("Nsis", "Inno"):
         return "nsis"
+    if primary == "PE":
+        inner = [t for t in types[1:]]
+        if inner and inner[0] == "zip":
+            return "pe-sfx" if has_embed else "pe"  # 多段 zip 拼接 → -t# 全段提取
+        if inner and any(t in ("Rar5", "rar", "7z", "zstd") for t in inner):
+            return "archive"  # 单归档内嵌 → 普通解压
+        return "pe-sfx" if has_embed else "pe"
     if any(t in types for t in ("zip", "7z", "rar", "Rar5", "tar", "gzip", "bzip2", "xz", "zstd")):
         return "archive"
-    if "PE" in types:
-        return "pe-sfx" if has_embed else "pe"
     return "unknown"
 
 
