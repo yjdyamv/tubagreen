@@ -252,9 +252,11 @@ def resolve_github(client: httpx.Client, repo: str, pattern: str) -> tuple[str, 
 
 def resolve_tpu(client: httpx.Client, slug: str, pattern: str = "") -> tuple[str, str]:
     """TechPowerUp 三步下载：GET 取版本 id → POST 选镜像 → POST 拿直链。
-    返回 (下载URL, 文件名)。pattern 用于排除定制皮肤版（如 ASUS ROG）。"""
+    返回 (下载URL, 文件名)。pattern 用于排除定制皮肤版（如 ASUS ROG）。
+    TPU 页面响应通常 <10s，每步单独设 30s 超时，避免慢响应拖死整个下载。"""
     base = f"https://www.techpowerup.com/download/{slug}/"
-    r = client.get(base)
+    t30 = httpx.Timeout(30.0, connect=15.0)
+    r = client.get(base, timeout=t30)
     r.raise_for_status()
     # 提取 (版本标题, id) 对
     pairs = [(re.sub(r'<[^>]+>', '', h).strip(), i)
@@ -268,13 +270,13 @@ def resolve_tpu(client: httpx.Client, slug: str, pattern: str = "") -> tuple[str
             raise RuntimeError("TPU 页面未找到下载 id")
         fid = str(max(ids))
     # 选镜像服务器
-    r2 = client.post(base, data={"id": fid})
+    r2 = client.post(base, data={"id": fid}, timeout=t30)
     r2.raise_for_status()
     servers = re.findall(r'name="server_id" value="(\d+)"', r2.text)
     if not servers:
         raise RuntimeError("TPU 镜像页未找到服务器")
     # 拿最终直链
-    r3 = client.post(base, data={"id": fid, "server_id": servers[0]})
+    r3 = client.post(base, data={"id": fid, "server_id": servers[0]}, timeout=t30)
     r3.raise_for_status()
     url = str(r3.url)
     return url, url.split("/")[-1].split("?")[0]
@@ -557,7 +559,12 @@ def download_one(client: httpx.Client, tool: Tool, out_dir: Path, force: bool,
     """下载单个工具（含地址解析、断点续传、重试）。"""
     res = Result(tool=tool, status="fail")
     try:
-        # ---- 解析下载地址 ----
+        # ---- 解析下载地址（TPU/官网/GitHub 解析可能较慢，先打日志避免静默卡住）----
+        src = (f"GitHub {tool.github}" if tool.github else
+               f"GitHub latest {tool.github_latest}" if tool.github_latest else
+               f"TPU {tool.tpu}" if tool.tpu else
+               f"官网 {tool.url[:60]}" if tool.url else "手动")
+        log(f"[解析] {tool.category}/{tool.name}  {src} ...")
         if tool.github:
             tool.resolved_url, tool.filename = resolve_github(client, tool.github, tool.asset_pattern)
         elif tool.github_latest:
