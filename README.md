@@ -84,7 +84,7 @@ uv run pack -c 硬盘工具     # 只打包某分类
 
 - `pack: false` 标记的工具（8 个：DiskGenius、烤鸡工具/FurMark、AIDA64、Speccy、WinRAR、UltraISO、
   VC++ 运行库合集、.NET Framework 4.8.1）**只下载到本地工具箱、不进发布包**（商业软件/体积大/重复）；
-- CI 打包时 `uv run tubagreen --pack-exclude` 自动生成排除列表；
+- CI 与本地共用 `pack.py` 打包（`uv run pack`），自动生成排除列表；
 - 发布包实测约 **350MB**（打包前 782MB，7z mx=5）。
 
 ## 体积瘦身
