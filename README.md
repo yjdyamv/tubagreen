@@ -70,9 +70,8 @@ uv run tubagreen --keep-archives  # 保留原始压缩包
 
 - `pack: false` 标记的工具（8 个：DiskGenius、烤鸡工具/FurMark、AIDA64、Speccy、WinRAR、UltraISO、
   VC++ 运行库合集、.NET Framework 4.8.1）**只下载到本地工具箱、不进发布包**（商业软件/体积大/重复）；
-- CI 打包时 `uv run tubagreen --pack-exclude` 自动生成排除列表，另裁掉 System Informer 的
-  arm64/i386 架构（只留 amd64）；
-- 发布包实测约 **320MB**（打包前 782MB，7z mx=5）。
+- CI 打包时 `uv run tubagreen --pack-exclude` 自动生成排除列表；
+- 发布包实测约 **350MB**（打包前 782MB，7z mx=5）。
 
 ## 体积瘦身
 
