@@ -33,6 +33,26 @@ import httpx
 import yaml
 
 # ---------------------------------------------------------------
+# 控制台编码兼容（Windows CI/英文系统 stdout 是 cp1252，打印中文直接崩）
+# 策略：当前编码能编中文就保持（本地中文系统 cp936/GBK 不乱码），不能就切 UTF-8
+# ---------------------------------------------------------------
+def _ensure_unicode_console() -> None:
+    for _s in (sys.stdout, sys.stderr):
+        enc = getattr(_s, "encoding", None)
+        if not enc:
+            continue
+        try:
+            "中".encode(enc)
+        except (UnicodeEncodeError, LookupError):
+            try:
+                _s.reconfigure(encoding="utf-8", errors="replace")
+            except (AttributeError, ValueError):
+                pass
+
+
+_ensure_unicode_console()
+
+# ---------------------------------------------------------------
 # 路径与常量
 # ---------------------------------------------------------------
 ROOT = Path(__file__).resolve().parent          # 脚本位于项目根目录

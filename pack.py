@@ -24,6 +24,23 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Windows CI/英文系统 stdout 是 cp1252，打印中文直接崩；能编中文就保持，否则切 UTF-8
+def _ensure_unicode_console() -> None:
+    for _s in (sys.stdout, sys.stderr):
+        enc = getattr(_s, "encoding", None)
+        if not enc:
+            continue
+        try:
+            "中".encode(enc)
+        except (UnicodeEncodeError, LookupError):
+            try:
+                _s.reconfigure(encoding="utf-8", errors="replace")
+            except (AttributeError, ValueError):
+                pass
+
+
+_ensure_unicode_console()
+
 ROOT = Path(__file__).resolve().parent
 
 # 压缩算法：FLZMA2 = 7-Zip ZS 的快速 LZMA2（同压缩率更快；产出标准 LZMA2 流，通用兼容）
