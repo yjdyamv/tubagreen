@@ -114,6 +114,7 @@ def ensure_dependencies(out_root: Path) -> None:
                                    capture_output=True, text=True, timeout=300)
                 if r.returncode == 0 and sz_local.exists():
                     installer.unlink(missing_ok=True)
+                    _clean_dir(sz_dir)  # 清掉安装器残留（Uninstall.exe 等）
                     log(f"[准备] 7-Zip ZS 便携版就绪: {sz_local}")
                 else:
                     print("  ⚠ 7-Zip ZS 提取失败，安装包已保留在 _tools/，可手动解压。")
