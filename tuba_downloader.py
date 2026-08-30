@@ -166,7 +166,9 @@ class Tool:
     category: str
     homepage: str = ""
     # 下载源
-    url: str = ""                      # 官网稳定直链
+    url: str = ""                      # 官网稳定直链（可含 {ver} 占位，配合 version_pattern 自动取最新）
+    version_url: str = ""             # 版本信息页（默认回退 homepage）
+    version_pattern: str = ""         # 从版本页提取最新版号的正则（取捕获组/整体，多版本取最大）
     github: str = ""                   # GitHub 仓库（自动解析最新 Release，需 asset_pattern）
     asset_pattern: str = ""
     github_latest: str = ""            # GitHub 仓库（用 /releases/latest/download/ 永久链接）
@@ -174,6 +176,7 @@ class Tool:
     tpu: str = ""                      # TechPowerUp 下载页 slug（自动三步解析）
     tpu_pattern: str = ""              # TPU 版本标题匹配（如 "TechPowerUp GPU-Z" 排除定制皮肤版）
     mediafire: str = ""                # MediaFire 页面链接（官方网盘托管，一般需手动）
+    ua: str = ""                       # 自定义 UA（默认 curl/8.0；个别站点封 curl UA 需改浏览器 UA）
     # 提取行为
     no_extract: bool = False           # 单文件工具，跳过提取（如 GPU-Z、Rufus）
     installer: bool = False            # 安装版，保留原安装程序（如 OCCT）
@@ -182,6 +185,7 @@ class Tool:
     note: str = ""
     resolved_url: str = ""
     filename: str = ""
+    resolved_version: str = ""        # 版本解析得到的最新版号（version_pattern 命中时）
 
 
 @dataclass
@@ -253,6 +257,60 @@ def resolve_tpu(client: httpx.Client, slug: str, pattern: str = "") -> tuple[str
     r3.raise_for_status()
     url = str(r3.url)
     return url, url.split("/")[-1].split("?")[0]
+
+
+def _ver_key(v: str) -> tuple:
+    """版本号语义排序键：'3.01' / '1.4.1.1032' / '30.19b20' 等 → 可比较元组。"""
+    parts = re.split(r"(\d+|[^\d.]+)", v.lower())
+    key: list = []
+    for p in parts:
+        if not p:
+            continue
+        if p.isdigit():
+            key.append((0, int(p)))
+        else:
+            key.append((1, p))
+    return tuple(key)
+
+
+def _fetch_page(client: httpx.Client, page_url: str, ua: str = UA) -> str:
+    """抓取页面文本：httpx 优先，失败/被拦时 curl 直连兜底（代理差异场景）。"""
+    last_err: Exception | None = None
+    for attempt in range(3):
+        try:
+            r = client.get(page_url)
+            r.raise_for_status()
+            return r.text
+        except Exception as e:
+            last_err = e
+            if attempt < 2:
+                time.sleep(2 ** attempt)
+    try:
+        curl = shutil.which("curl") or str(Path("C:/Windows/System32/curl.exe"))
+        r = subprocess.run([curl, "-fsL", "-A", ua, "--max-time", "60", page_url],
+                           capture_output=True, text=True, timeout=120)
+        if r.returncode == 0 and r.stdout:
+            return r.stdout
+        last_err = RuntimeError(f"curl exit {r.returncode}")
+    except Exception as e2:
+        last_err = e2
+    raise RuntimeError(f"版本页获取失败: {type(last_err).__name__}: {last_err}")
+
+
+def resolve_version(client: httpx.Client, page_url: str, pattern: str, ua: str = UA) -> str:
+    """抓取版本页，用正则提取所有版本号，语义排序取最大（最新）。返回最新版号。
+    网络抖动/反爬时自动重试并 curl 兜底。"""
+    pat = re.compile(pattern, re.I)
+    text = _fetch_page(client, page_url, ua)
+    found: list[str] = []
+    for m in pat.finditer(text):
+        v = m.group(1) if m.lastindex else m.group(0)
+        v = htmlmod.unescape(v).strip()
+        if v and re.search(r"\d", v):
+            found.append(v)
+    if not found:
+        raise RuntimeError(f"版本页未匹配到版本号 (pattern={pattern})")
+    return max(set(found), key=_ver_key)
 
 
 # ---------------------------------------------------------------
@@ -402,14 +460,14 @@ def post_fix(tool: Tool, out_root: Path) -> None:
 # ---------------------------------------------------------------
 # 下载核心（httpx 流式 + 断点续传 + 重试 + curl 兜底）
 # ---------------------------------------------------------------
-def _stream_to_part(client: httpx.Client, url: str, part: Path, start: int) -> None:
+def _stream_to_part(client: httpx.Client, url: str, part: Path, start: int, ua: str = UA) -> None:
     """httpx 流式下载到 .part（支持 Range 续传）。"""
-    headers = {"User-Agent": UA}
+    headers = {"User-Agent": ua}
     if start > 0:
         headers["Range"] = f"bytes={start}-"
     with client.stream("GET", url, headers=headers) as r:
         if r.status_code == 416:  # Range 无效 → 整文件重下
-            with client.stream("GET", url, headers={"User-Agent": UA}) as r2:
+            with client.stream("GET", url, headers={"User-Agent": ua}) as r2:
                 r2.raise_for_status()
                 with open(part, "wb") as f:
                     for chunk in r2.iter_bytes(65536):
@@ -429,12 +487,13 @@ def mirror_urls(url: str):
             yield m + url
 
 
-def _fetch_to_part(client: httpx.Client, url: str, part: Path, start: int = 0) -> None:
-    """统一下载：httpx 流式（续传）→ curl 兜底 → GitHub 镜像回退。"""
+def _fetch_to_part(client: httpx.Client, url: str, part: Path, start: int = 0, ua: str = UA) -> None:
+    """统一下载：httpx 流式（续传）→ curl 兜底 → GitHub 镜像回退。
+    httpx 报 HTTP 错误时也交给 curl 再试一次（代理差异下 curl 直连往往可成功）。"""
     last_err: Exception | None = None
     for u in mirror_urls(url):
         try:
-            _stream_to_part(client, u, part, start)
+            _stream_to_part(client, u, part, start, ua)
             return
         except RETRYABLE as e:
             last_err = e
@@ -442,10 +501,10 @@ def _fetch_to_part(client: httpx.Client, url: str, part: Path, start: int = 0) -
         except httpx.HTTPStatusError as e:
             if e.response.status_code in (403, 404, 451) and u != url:
                 continue  # 镜像不可用则换下一个
-            raise
-        # 直连或镜像均告失败时用 curl 再试一次（部分服务器只吃 curl）
+            last_err = e
+        # httpx 直连失败时用 curl 再试一次（部分服务器/网络路径只吃 curl）
         try:
-            _curl_to_part(u, part)
+            _curl_to_part(u, part, ua)
             return
         except Exception as e2:
             last_err = e2
@@ -455,10 +514,10 @@ def _fetch_to_part(client: httpx.Client, url: str, part: Path, start: int = 0) -
     raise RuntimeError(f"所有下载源均失败: {type(last_err).__name__}: {last_err}")
 
 
-def _curl_to_part(url: str, part: Path) -> None:
+def _curl_to_part(url: str, part: Path, ua: str = UA) -> None:
     """curl 兜底下载（部分服务器对 httpx 流式连接限流断连，如 TechPowerUp 大文件）。"""
     curl = shutil.which("curl") or str(Path("C:/Windows/System32/curl.exe"))
-    r = subprocess.run([curl, "-sL", "-C", "-", "-A", UA, "--retry", "2",
+    r = subprocess.run([curl, "-fsL", "-C", "-", "-A", ua, "--retry", "2",
                         "-o", str(part), url], timeout=900)
     if r.returncode != 0:
         raise RuntimeError(f"curl 下载失败 (exit {r.returncode})")
@@ -480,6 +539,20 @@ def download_one(client: httpx.Client, tool: Tool, out_dir: Path, force: bool,
         elif tool.url:
             tool.resolved_url = tool.url
             tool.filename = tool.url.split("/")[-1].split("?")[0]
+            # 版本自动更新：抓版本页取最新版，套 {ver} 模板生成直链；失败不回退含占位符的 URL
+            if tool.version_pattern:
+                try:
+                    v = resolve_version(client, tool.version_url or tool.homepage, tool.version_pattern, tool.ua or UA)
+                    tool.resolved_version = v
+                    if "{" in tool.resolved_url:
+                        tool.resolved_url = tool.resolved_url.format(ver=v, ver_nodot=v.replace(".", "_"))
+                        tool.filename = tool.resolved_url.split("/")[-1].split("?")[0]
+                        log(f"[版本] {tool.category}/{tool.name}  最新 {v} -> {tool.filename}")
+                except Exception as e:
+                    if "{" in tool.resolved_url:
+                        res.detail = f"版本解析失败，无法生成直链: {type(e).__name__}: {e}"
+                        return res
+                    log(f"[版本解析失败] {tool.name}: {type(e).__name__}: {e}（回退固定 URL）")
             if not tool.filename:
                 res.detail = "URL 无文件名"
                 return res
@@ -499,19 +572,31 @@ def download_one(client: httpx.Client, tool: Tool, out_dir: Path, force: bool,
 
         with lock:
             prev = state.get(tool.name)
-        # 已提取为绿色目录 → 跳过
+        # 已提取为绿色目录 → 版本一致才跳过；版本可跟踪且不一致 → 重下更新
         ext_dir = out_dir / tool.category / tool.name
         if not force and ext_dir.exists() and any(ext_dir.iterdir()):
-            res.status = "skip"
-            res.detail = "已提取"
-            return res
-        # 已下载且大小一致 → 跳过
+            if not tool.resolved_version:
+                res.status = "skip"
+                res.detail = "已提取"
+                return res
+            prev_ver = prev.get("version") if prev else None
+            if prev_ver == tool.resolved_version:
+                res.status = "skip"
+                res.detail = "已提取"
+                return res
+            log(f"[更新] {tool.name}  绿色目录为旧版本{prev_ver or '?'}，重新下载 {tool.resolved_version}")
+        # 已下载且大小一致 → 跳过（有版本解析时须版本一致才跳过）
         if not force and fpath.exists() and prev and prev.get("url") == tool.resolved_url \
-                and prev.get("size") == fpath.stat().st_size:
+                and prev.get("size") == fpath.stat().st_size \
+                and (not tool.resolved_version or prev.get("version") == tool.resolved_version):
             res.status = "skip"
             res.size = fpath.stat().st_size
             res.detail = "已存在"
             return res
+        # 版本变了但已下载旧版文件在根目录 → 直接重下
+        if not force and fpath.exists() and tool.resolved_version \
+                and prev and prev.get("version") and prev.get("version") != tool.resolved_version:
+            log(f"[更新] {tool.name}: {prev.get('version')} -> {tool.resolved_version}（重新下载）")
         start = part.stat().st_size if part.exists() and not force else 0
 
         log(f"[下载中] {tool.category}/{tool.name}  {tool.filename}"
@@ -523,13 +608,18 @@ def download_one(client: httpx.Client, tool: Tool, out_dir: Path, force: bool,
                 log(f"  ↻ 第 {attempt} 次重试（{backoff:.0f}s 后）: {type(last_err).__name__}")
                 time.sleep(backoff)
             try:
-                _fetch_to_part(client, tool.resolved_url, part, start)
+                _fetch_to_part(client, tool.resolved_url, part, start, tool.ua or UA)
                 break
             except RETRYABLE as e:
                 last_err = e
                 start = part.stat().st_size if part.exists() else 0
                 continue
             except httpx.HTTPStatusError as e:
+                # 瞬态状态码（限流/服务端抖动）重试，永久性错误（404 等）直接失败
+                if e.response.status_code in (403, 429, 500, 502, 503, 504) and attempt < MAX_RETRIES:
+                    last_err = e
+                    start = part.stat().st_size if part.exists() else 0
+                    continue
                 res.detail = f"HTTP {e.response.status_code}: {e.response.url}"
                 return res
             except Exception as e:
@@ -541,7 +631,10 @@ def download_one(client: httpx.Client, tool: Tool, out_dir: Path, force: bool,
 
         part.replace(fpath)
         with lock:
-            state[tool.name] = {"url": tool.resolved_url, "size": fpath.stat().st_size}
+            rec = {"url": tool.resolved_url, "size": fpath.stat().st_size}
+            if tool.resolved_version:
+                rec["version"] = tool.resolved_version
+            state[tool.name] = rec
         res.status = "ok"
         res.size = fpath.stat().st_size
         res.detail = f"{res.size / 1048576:.1f} MB"
@@ -587,8 +680,50 @@ def write_report(results: list[Result]) -> tuple[int, int, int, int]:
     return len(ok), len(skip), len(manual), len(fail)
 
 
+def check_updates() -> int:
+    """--check-updates：只解析各工具最新版本，与本地已下载版本对比，输出报告。
+    不发下载，也不写状态文件。"""
+    tools = load_manifest()
+    state: dict = {}
+    if STATE_FILE.exists():
+        state = yaml.safe_load(STATE_FILE.read_text(encoding="utf-8")) or {}
+    print("正在检查各工具最新版本 ...\n")
+    rows: list[tuple[str, str, str, str]] = []  # (分类/名称, 当前, 最新, 状态)
+    with httpx.Client(timeout=TIMEOUT, headers={"User-Agent": UA}, follow_redirects=True) as client:
+        for t in tools:
+            cur = str(state.get(t.name, {}).get("version", "-"))
+            if t.github or t.github_latest or t.tpu:
+                latest = "自动跟随"
+                status = "✓"
+            elif t.version_pattern:
+                try:
+                    v = resolve_version(client, t.version_url or t.homepage, t.version_pattern, t.ua or UA)
+                    latest = v
+                    status = "✓" if cur != "-" and cur == v else ("⚠️ 有新版本" if cur != "-" else "未下载")
+                except Exception as e:
+                    latest = f"解析失败({type(e).__name__})"
+                    status = "?"
+            elif t.url:
+                latest = "固定URL"
+                status = "→"
+            else:
+                latest = "手动"
+                status = "·"
+            rows.append((f"{t.category}/{t.name}", cur, latest, status))
+    w = max(len(r[0]) for r in rows) + 2
+    print(f"{'工具':<{w}}{'当前版本':<14}{'最新版本':<16}状态")
+    print("-" * (w + 46))
+    for name, cur, latest, status in rows:
+        print(f"{name:<{w}}{cur:<14}{latest:<16}{status}")
+    upd = sum(1 for r in rows if r[3] == "⚠️ 有新版本")
+    print(f"\n共 {len(rows)} 个工具：{upd} 个可更新（运行下载命令即自动取最新版）")
+    return 0
+
+
 def run(args: argparse.Namespace) -> int:
     """主流程：准备依赖 → 过滤工具 → 并发下载 → 提取绿色化 → 报告。"""
+    if args.check_updates:
+        return check_updates()
     ensure_dependencies(OUT_DIR)  # 首次运行自动准备 7-Zip ZS 便携版等依赖
     tools = load_manifest()
     if args.list:
@@ -692,6 +827,7 @@ def run(args: argparse.Namespace) -> int:
 def main() -> None:
     p = argparse.ArgumentParser(description="硬件工具箱软件官网自动下载器")
     p.add_argument("--list", action="store_true", help="列出软件清单")
+    p.add_argument("--check-updates", action="store_true", help="检查各工具最新版本（不下载）")
     p.add_argument("-c", "--category", help="只下载指定分类")
     p.add_argument("-o", "--only", help="只下载指定工具（逗号分隔）")
     p.add_argument("--parallel", type=int, default=2, help="并发下载数（默认 2，防服务器限流）")

@@ -17,15 +17,19 @@ categories:
   处理器工具:
     - name: CPU-Z
       homepage: https://www.cpuid.com/softwares/cpu-z.html
-      url: https://download.cpuid.com/cpu-z/cpu-z_2.14-cn.zip
-      note: 官方中文版
+      url: https://download.cpuid.com/cpu-z/cpu-z_{ver}-cn.zip
+      version_pattern: cpu-z[-_ ]?([\d.]+)
+      note: 官方中文版，版本自动解析
     - name: Core Temp
       homepage: https://www.alcpu.com/CoreTemp/
-      url: https://www.alcpu.com/CoreTemp/Core-Temp-setup.exe
-      note: Inno 安装器（用 innoextract 自动提取）
+      url: https://www.alcpu.com/CoreTemp/Core-Temp-setup-v{ver}.exe
+      version_pattern: Core-Temp-setup-v?([\d.]+)\.exe
+      note: Inno 安装器（用 innoextract 自动提取），版本自动解析
     - name: Prime95
       homepage: https://www.mersenne.org/download/
-      url: https://www.mersenne.org/download/software/v30/30.19/p95v3019b15.win64.zip
+      url: https://www.mersenne.org/download/software/v30/30.19/p95v{ver}.win64.zip
+      version_pattern: p95v([\w.]+)\.win64\.zip
+      note: 版本自动解析
     - name: ThrottleStop
       homepage: https://www.techpowerup.com/download/techpowerup-throttlestop/
       tpu: techpowerup-throttlestop
@@ -67,20 +71,24 @@ categories:
   硬盘工具:
     - name: CrystalDiskInfo
       homepage: https://crystalmark.info/en/software/crystaldiskinfo/
-      url: https://downloads.sourceforge.net/project/crystaldiskinfo/9.9.2/CrystalDiskInfo9_9_2.zip
-      note: 版本号过期需到 crystalmark.info 官网核对更新
+      url: https://downloads.sourceforge.net/project/crystaldiskinfo/{ver}/CrystalDiskInfo{ver_nodot}.zip
+      version_pattern: CrystalDiskInfo\s*([\d.]+)
+      note: 版本自动解析（SourceForge 路径含版本号）
     - name: CrystalDiskMark
       homepage: https://crystalmark.info/en/software/crystaldiskmark/
-      url: https://downloads.sourceforge.net/project/crystaldiskmark/9.0.3/CrystalDiskMark9_0_3.zip
-      note: 版本号过期需到 crystalmark.info 官网核对更新
+      url: https://downloads.sourceforge.net/project/crystaldiskmark/{ver}/CrystalDiskMark{ver_nodot}.zip
+      version_pattern: CrystalDiskMark\s*([\d.]+)
+      note: 版本自动解析（SourceForge 路径含版本号）
     - name: DiskGenius
       homepage: https://www.diskgenius.com/professional.php
       url: https://download.eassos.com/DGEng6201829_x64.zip
       note: 官网 x64 便携版
     - name: WizTree
       homepage: https://diskanalyzer.com/
-      url: https://diskanalyzer.com/files/wiztree_4_21_portable.zip
-      note: 官方便携版
+      version_url: https://diskanalyzer.com/download
+      url: https://diskanalyzer.com/files/wiztree_{ver}_portable.zip
+      version_pattern: wiztree_([\d_]+)_portable\.zip
+      note: 官方便携版，版本自动解析
     - name: WinDirStat
       homepage: https://windirstat.net/
       github_latest: windirstat/windirstat
@@ -114,14 +122,18 @@ categories:
   内存工具:
     - name: MemTest86
       homepage: https://www.memtest86.com/download.htm
+      ua: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126.0 Safari/537.36
       url: https://www.memtest86.com/downloads/memtest86-usb.zip
-      note: 免费版 USB 镜像
+      version_pattern: MemTest86\s*V?([\d.]+)
+      note: 免费版 USB 镜像（下载文件名固定，版本仅作更新提醒）；该站封 curl UA 需浏览器 UA
     - name: HCI MemTest
       homepage: https://hcidesign.com/memtest/download.html
       url: https://hcidesign.com/memtest/MemTest.zip
     - name: MemTest64 (TechPowerUp)
       homepage: https://www.techpowerup.com/download/techpowerup-memtest64/
       tpu: techpowerup-memtest64
+      no_extract: true
+      note: 单文件绿色工具
     - name: ZenTimings
       homepage: https://github.com/irusanov/ZenTimings
       github: irusanov/ZenTimings
@@ -136,8 +148,10 @@ categories:
   烤鸡工具:
     - name: OCCT
       homepage: https://www.ocbase.com/
-      url: https://www.ocbase.com/download/occt/OCCT_13.1.15_64bit.zip
-      note: 分层安装器（自动解压内嵌分块）
+      version_url: https://www.ocbase.com/download/
+      url: https://www.ocbase.com/download/occt/OCCT_{ver}_64bit.zip
+      version_pattern: OCCT[_/]?(\d+(?:\.\d+)+)
+      note: 分层安装器（自动解压内嵌分块）；版本自动解析
     - name: FurMark
       homepage: https://geeks3d.com/furmark/
       url: https://www.geeks3d.com/dl/get/771
@@ -151,16 +165,24 @@ categories:
       note: 商业版。提取后自动将中文语言文件 GBK->UTF-8（兼容系统 UTF-8 Beta 模式）
     - name: HWiNFO
       homepage: https://www.hwinfo.com/download/
-      url: https://www.hwinfo.com/files/hwi_852.zip
+      ua: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126.0 Safari/537.36
+      url: https://www.hwinfo.com/files/hwi_{ver}.zip
+      version_pattern: hwi_(\d+)\.zip
+      note: 版本自动解析；该站封 curl UA 需浏览器 UA
     - name: HWMonitor
       homepage: https://www.cpuid.com/softwares/hwmonitor.html
-      url: https://download.cpuid.com/hwmonitor/hwmonitor_1.54.zip
+      url: https://download.cpuid.com/hwmonitor/hwmonitor_{ver}.zip
+      version_pattern: hwmonitor_([\d.]+)\.zip
+      note: 版本自动解析
     - name: Speccy
       homepage: https://www.ccleaner.com/speccy
       url: https://download.ccleaner.com/spsetup129.exe
     - name: RWEverything
       homepage: http://rweverything.com/
-      url: http://rweverything.com/downloads/RwX64V1.7.zip
+      version_url: http://rweverything.com/download/
+      url: http://rweverything.com/downloads/RwPortableV{ver}.zip
+      version_pattern: RwPortableV([\d.]+)\.zip
+      note: 官方便携版（页面同时有 RwX64 版），版本自动解析
 
   外设工具:
     - name: showKeyBoard
@@ -176,11 +198,15 @@ categories:
   其他工具:
     - name: Everything
       homepage: https://www.voidtools.com/
-      url: https://www.voidtools.com/Everything-1.4.1.1026.x64.zip
+      url: https://www.voidtools.com/Everything-{ver}.x64.zip
+      version_pattern: Everything-([\d.]+)\.x64\.zip
+      note: 版本自动解析
     - name: Rufus
       homepage: https://rufus.ie/
       github: pbatard/rufus
       asset_pattern: ^rufus-.*\.exe$
+      no_extract: true
+      note: 单文件绿色工具
     - name: 7-Zip ZS
       homepage: https://github.com/mcmilk/7-Zip-zstd
       github: mcmilk/7-Zip-zstd
@@ -188,8 +214,9 @@ categories:
       note: zstd 增强版 7-Zip（作者 mcmilk），安装器经 7-Zip 提取后即绿色便携版
     - name: WinRAR
       homepage: https://www.rarlab.com/download.htm
-      url: https://www.rarlab.com/rar/winrar-x64-723.exe
-      note: 官方安装器为 PE 内嵌 Rar5，自动解出绿色便携版；版本更新时到 rarlab.com/download.htm 核对版本号
+      url: https://www.rarlab.com/rar/winrar-x64-{ver}.exe
+      version_pattern: winrar-x64-([\d.]+)\.exe
+      note: 官方安装器为 PE 内嵌 Rar5，自动解出绿色便携版；版本自动解析
     - name: Dism++
       homepage: https://github.com/Chuyu-Team/Dism-Multi-language
       github: Chuyu-Team/Dism-Multi-language
