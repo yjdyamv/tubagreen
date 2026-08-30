@@ -71,21 +71,21 @@ uv run pack -c 硬盘工具     # 只打包某分类
 - ✅ **37 个自动下载**：CPU-Z、Prime95、ThrottleStop、GPU-Z、FurMark 2.10.2、nvidiaInspector、
   CrystalDiskInfo、CrystalDiskMark、DiskGenius、WizTree、Ventoy、MediaTester、
   MemTest86+、RAMMap、HCI MemTest、ZenTimings、AIDA64、LibreHardwareMonitor、LatencyMon、
-  HWiNFO、Speccy、RWEverything、MouseTester、Everything、Rufus、7-Zip ZS、WinRAR、Dism++、BleachBit、
+  HWiNFO、Speccy、RWEverything、MouseTester、Everything、Rufus、7-Zip ZS、Dism++、BleachBit、
   Geek、BlueScreenView、BatteryInfoView、Autoruns、TCPView、System Informer、DesktopOK、gifcam、
   VC++ 运行库合集、.NET Framework 4.8.1 等
 - 📦 **免安装单文件**：GPU-Z、Rufus、UltraISO、MediaTester、LatencyMon 等
 - 🔧 **安装版**（保留安装程序，需运行安装）：VC++ 运行库合集、.NET Framework 4.8.1
-- ⏸️ **19 个已注释停用**（无官方可脚本化来源，或功能已被清单内工具覆盖/替代）：OCCT、y-cruncher、DDU、LinX、wPrime、
+- ⏸️ **20 个已注释停用**（无官方可脚本化来源、功能已被清单内工具覆盖/替代、或商业原因）：OCCT、y-cruncher、DDU、LinX、wPrime、
   SuperPi、dxvachecker、urwtest、SSD-Z、TxBENCH、AS SSD、MemTest86、Thaiphoon Burner、TM5、WinDirStat、
-  SpaceSniffer、MemTest64、HWMonitor、Process Explorer
+  SpaceSniffer、MemTest64、HWMonitor、Process Explorer、WinRAR（商业软件且官网下载易中断，解压已有 7-Zip ZS 覆盖）
 
 ## 发布包策略
 
-- `pack: false` 标记的工具（8 个：DiskGenius、烤鸡工具/FurMark、AIDA64、Speccy、WinRAR、UltraISO、
-  VC++ 运行库合集、.NET Framework 4.8.1）**只下载到本地工具箱、不进发布包**（商业软件/体积大/重复）；
-- CI 与本地共用 `pack.py` 打包（`uv run pack`），自动生成排除列表；
-- 发布包实测约 **350MB**（打包前 782MB，7z mx=5）。
+- `pack: false` 标记的工具（当前清单已全部注释，默认全量入包）**只下载到本地工具箱、不进发布包**（商业软件/体积大/重复）；
+  如需排除某工具，在清单条目中加 `pack: false` 即可，本地与 CI 都会自动跳过；
+- CI 与本地共用 `pack.py` 打包（`uv run pack`），自动生成排除列表，打包前拦截 `.part` 半截残留，打包后做完整性校验；
+- 发布包实测约 **255MB**（打包前 573MB，7z FLZMA2 mx=5）。
 
 ## 体积瘦身
 
@@ -101,7 +101,8 @@ tools/
 ├── 硬盘工具/CrystalDiskInfo/
 ├── 综合检测/AIDA64 Business/
 ├── 其他工具/7-Zip ZS/          # 便携版
-├── 其他工具/WinRAR/            # 便携版
+├── 其他工具/7-Zip ZS/          # 便携版
+├── 其他工具/System Informer/    # 便携版
 ├── 下载报告.txt                # 每次运行后的详细报告
 ```
 

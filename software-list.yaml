@@ -241,11 +241,11 @@ categories:
       github: mcmilk/7-Zip-zstd
       asset_pattern: zstd-x64\.exe$
       note: zstd 增强版 7-Zip（作者 mcmilk），安装器经 7-Zip 提取后即绿色便携版
-    - name: WinRAR
-      homepage: https://www.rarlab.com/download.htm
-      url: https://www.rarlab.com/rar/winrar-x64-{ver}.exe
-      version_pattern: winrar-x64-([\d.]+)\.exe
-      note: 官方安装器为 PE 内嵌 Rar5，自动解出绿色便携版；版本自动解析；RAR 格式标准（7-Zip 不写 RAR），用户指定保留
+    # - name: WinRAR
+    #   homepage: https://www.rarlab.com/download.htm
+    #   url: https://www.rarlab.com/rar/winrar-x64-{ver}.exe
+    #   version_pattern: winrar-x64-([\d.]+)\.exe
+    #   note: 商业软件且官网下载易中断（曾残留 .part）；RAR 解压已有 7-Zip ZS 覆盖，仅写 RAR 缺失，用户决定不入库
     - name: Dism++
       homepage: https://github.com/Chuyu-Team/Dism-Multi-language
       github: Chuyu-Team/Dism-Multi-language
